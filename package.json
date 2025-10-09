@@ -1,0 +1,23 @@
+{
+  "name": "task_management_system",
+  "version": "1.0.0",
+  "description": "Full-stack Task Management System with Node.js, Express, MySQL, EJS, and Bootstrap.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gangaramnandini/task_management_system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gangaramnandini/task_management_system/issues"
+  },
+  "homepage": "https://github.com/gangaramnandini/task_management_system#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
