@@ -1,0 +1,104 @@
+<div class="dashboard-header-bar d-flex justify-content-between align-items-center mb-3">
+  <h2 class="fw-bold mb-0">Dashboard</h2>
+  <button class="btn btn-primary dashboard-addtask-btn">
+    <i class="bi bi-plus-lg me-1"></i>Add Task
+  </button>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="dashboard-card card rounded-4 shadow-sm border-0 bg-white text-center py-3">
+      <h6 class="text-secondary mb-2">Today's Tasks</h6>
+      <div class="fs-1 fw-bold text-primary">5</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="dashboard-card card rounded-4 shadow-sm border-0 bg-white text-center py-3">
+      <h6 class="text-secondary mb-2">Upcoming Tasks</h6>
+      <div class="fs-1 fw-bold text-info">12</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="dashboard-card card rounded-4 shadow-sm border-0 bg-white text-center py-3">
+      <h6 class="text-secondary mb-2">Pending Tasks</h6>
+      <div class="fs-1 fw-bold text-danger">3</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="dashboard-card card rounded-4 shadow-sm border-0 bg-white text-center py-3">
+      <h6 class="text-secondary mb-2">Completed Tasks</h6>
+      <div class="fs-1 fw-bold text-success">25</div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Tasks Table Section -->
+  <div class="col-lg-8">
+    <div class="card dashboard-tasklist rounded-4 shadow-sm">
+      <div class="card-body p-4">
+        <h5 class="fw-bold mb-4">My Tasks</h5>
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <div class="card border-0 rounded-4 shadow-sm mb-3">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span class="fw-semibold">Design New Feature</span>
+                  <span class="badge bg-info text-dark">Upcoming</span>
+                </div>
+                <div class="small text-muted mb-2">Create mockups for new profile page</div>
+                <div class="small mb-2">Due: 2025-10-10</div>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-sm btn-outline-primary">View</button>
+                  <button class="btn btn-sm btn-outline-success">Mark as Done</button>
+                  <button class="btn btn-sm btn-outline-secondary">Edit</button>
+                </div>
+                <div class="mt-2 small text-muted">Subtasks: 2 &nbsp; Comments: 5</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="card border-0 rounded-4 shadow-sm mb-3">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span class="fw-semibold">Write Unit Tests</span>
+                  <span class="badge bg-danger">Pending</span>
+                </div>
+                <div class="small text-muted mb-2">Ensure code coverage for new API</div>
+                <div class="small mb-2">Due: 2025-10-08</div>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-sm btn-outline-primary">View</button>
+                  <button class="btn btn-sm btn-outline-success">Mark as Done</button>
+                  <button class="btn btn-sm btn-outline-secondary">Edit</button>
+                </div>
+                <div class="mt-2 small text-muted">Subtasks: 1 &nbsp; Comments: 3</div>
+              </div>
+            </div>
+          </div>
+          <!-- Add more task cards as placeholders -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile and Activity Log Side Section -->
+  <div class="col-lg-4">
+    <div class="card rounded-4 shadow-sm mb-4 dashboard-profile-card">
+      <div class="card-body text-center py-4">
+        <img src="/public/images/avatar.svg" class="dashboard-avatar mb-3" alt="Avatar">
+        <h6 class="mb-0 fw-semibold text-primary"><%= userName || 'User' %></h6>
+        <div class="text-muted small mb-1">user@email.com</div>
+        <div class="text-muted small">Task Warrior</div>
+      </div>
+    </div>
+    <div class="card rounded-4 shadow-sm dashboard-activity-card">
+      <div class="card-body py-4">
+        <h6 class="fw-bold mb-3">Activity Log</h6>
+        <ul class="list-group list-group-flush activity-log-list">
+          <li class="list-group-item text-muted small">No recent activity</li>
+          <!-- Add activity log placeholders here -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

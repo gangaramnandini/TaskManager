@@ -1,0 +1,61 @@
+<%- include('partials/header') %>
+
+<div class="container my-5" style="max-width: 600px;">
+  <h2 class="mb-4">Edit Task</h2>
+  <form action="/tasks/<%= task.task_id %>/edit" method="POST">
+    <div class="mb-3">
+      <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        name="title"
+        value="<%= task.title %>"
+        required>
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea
+        class="form-control"
+        id="description"
+        name="description"
+        rows="3"><%= task.description %></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="due_date" class="form-label">Due Date</label>
+      <input
+        type="date"
+        class="form-control"
+        id="due_date"
+        name="due_date"
+        value="<%= task.due_date ? task.due_date.toISOString().split('T')[0] : '' %>">
+    </div>
+
+
+    <div class="mb-3">
+      <label for="priority" class="form-label">Priority</label>
+      <select class="form-select" id="priority" name="priority">
+        <option value="Low" <%= task.priority === 'Low' ? 'selected' : '' %>>Low</option>
+        <option value="Medium" <%= task.priority === 'Medium' ? 'selected' : '' %>>Medium</option>
+        <option value="High" <%= task.priority === 'High' ? 'selected' : '' %>>High</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="status" class="form-label">Status</label>
+        <select class="form-select" id="status" name="status">
+          <option value="pending" <%= task.status === 'pending' ? 'selected' : '' %>>Pending</option>
+          <option value="completed" <%= task.status === 'completed' ? 'selected' : '' %>>Completed</option>
+        </select>
+      </div>
+      
+      
+
+    <button type="submit" class="btn btn-primary">Update Task</button>
+    <a href="/tasks" class="btn btn-secondary ms-2">Cancel</a>
+  </form>
+</div>
+
+<%- include('partials/footer') %>

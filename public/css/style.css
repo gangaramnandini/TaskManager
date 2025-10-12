@@ -1,0 +1,182 @@
+body {
+    background-color: #f8fafc;
+  }
+  .sidebar {
+    min-height: 100vh;
+    border-right: 1px solid #eee;
+  }
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(60, 60, 100, 0.05);
+  }
+  
+/* authontication section */
+  .auth-bg {
+    background: linear-gradient(135deg,#f5f6fa 60%,#e5e8fb 100%);
+    min-height:100vh;
+  }
+  .auth-card {
+    box-shadow: 0 4px 30px rgba(72,57,235,.09);
+    border-radius: 16px;
+    background: #fff;
+  }
+  .auth-left {
+    background: linear-gradient(135deg, #e5e8fb 0%, #f5f6fa 100%);
+  }
+  .auth-form label {
+    font-weight:500;
+  }
+  .auth-form .form-control {
+    border-radius: 8px;
+    border: 1px solid #e2e6ee;
+  }
+  .auth-form .btn-primary {
+    background:#4839eb;
+    border:none;
+    border-radius:8px;
+  }
+  .auth-form a {
+    font-weight:500;
+  }
+  
+  
+  /* dashboard_styling */
+  /* Global Styles */
+body {
+    background: #f4f6fb !important;
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    color: #222;
+    overflow: hidden; /* Prevent body from scrolling */
+  }
+  
+  /* Fixed Header */
+  .dashboard-navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 62px;
+    background: #ededf2 !important;
+    color: #5744a2 !important;
+    box-shadow: 0 2px 8px rgba(59,49,165,0.08);
+    
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 2rem;
+    z-index: 1300;
+  }
+  
+  /* Fixed Footer */
+  .dashboard-footer {
+    position: fixed;
+    left: 0; bottom: 0; right: 0;
+    height: 48px;
+    background: #232952;
+    box-shadow: 0 -2px 8px rgba(33,40,66,0.15);
+    color: #fff !important;
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 0;
+    z-index: 1020;
+    
+  }
+  
+  /* Fixed Sidebar */
+  .sidebar {
+    position: fixed;
+    top: 62px; /* below the header */
+    bottom: 48px; /* above the footer */
+    left: 0;
+    width: 265px;
+    background: #fff;
+    border-right: 1px solid #e6e9ef;
+    padding: 0 1.25rem;
+    overflow-y: auto; /* allow scrolling if sidebar content is long */
+    z-index: 1040;
+  }
+  
+  /* Main Content Scrolls */
+  .dashboard-main {
+    position: absolute;
+    top: 62px; /* below header */
+    bottom: 48px; /* above footer */
+    left: 265px; /* beside sidebar */
+    right: 0;
+    overflow-y: auto; /* only main content can scroll */
+    padding: 1.5rem 2rem;
+    min-width: 0; /* prevents overflow quirks */
+    background: #f4f6fb;
+  }
+  
+  /* Cards and other dashboard styles remain the same */
+  .dashboard-card,
+  .dashboard-profile-card,
+  .dashboard-activity-card {
+    border-radius: 22px !important;
+    background: #fff;
+    box-shadow: 0 2px 14px rgba(72,57,235,0.10);
+    padding: 1.5rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .dashboard-card h6,
+  .dashboard-main h2 {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  }
+  
+  .dashboard-tasklist .card {
+    border-radius: 18px !important;
+    background: #f8faff;
+    box-shadow: 0 1px 8px rgba(72,57,235,0.07);
+  }
+  
+  /* Button and Avatar Styles */
+  .dashboard-addtask-btn {
+    font-weight: 600;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #574ad4 0%, #3b31a5 100%);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.7rem;
+    box-shadow: 0 1px 4px rgba(72,57,235,0.12);
+    transition: background 0.18s;
+  }
+  .dashboard-addtask-btn:hover {
+    background: linear-gradient(90deg, #4839eb 0%, #574ad4 100%);
+  }
+  
+  .sidebar-avatar, .dashboard-avatar, .header-avatar {
+    width: 58px; height: 58px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 1rem;
+  }
+  .sidebar-avatar-small {
+    width: 30px; height: 30px; border-radius: 50%; object-fit: cover;
+  }
+  .sidebar .nav-link {
+    color: #6c5ed9; font-weight: 500;
+    border-radius: 8px; margin: 0.5rem 0;
+    padding: 0.6rem 1rem;
+    transition: background 0.16s;
+  }
+  .sidebar .nav-link:hover, .sidebar .nav-link.active {
+    background: #f0f1fe;
+    color: #4839eb;
+  }
+  
+  /* Responsive styles for mobile */
+  @media (max-width: 575.98px) {
+    .dashboard-navbar-title,
+    .dashboard-footer-text {
+      font-size: 1.05rem !important;
+    }
+    .dashboard-navbar-avatar {
+      width: 32px; height: 32px;
+    }
+    .dashboard-main {
+      left: 0;
+      padding: 1rem 0.6rem;
+    }
+    .sidebar {
+      display: none; /* or convert to drawer/menu for mobile */
+    }
+  }
+  

@@ -1,0 +1,15 @@
+<nav class="dashboard-navbar navbar navbar-expand-lg px-0 shadow-sm border-bottom bg-white mb-0">
+  <div class="container-fluid px-4">
+    <span class="navbar-brand dashboard-navbar-title fw-bold fs-4">
+      <i class="bi bi-kanban me-2"></i>TaskManagementSystem
+    </span>
+    <div class="ms-auto d-flex align-items-center">
+      <button class="btn btn-light p-2 me-3 border-0 dashboard-notif-btn rounded-circle">
+        <i class="bi bi-bell fs-5 text-secondary"></i>
+      </button>
+      <span class="dashboard-username fw-bold me-2"><%= userName || 'User' %></span>
+      <img src="/public/images/avatar.svg" class="dashboard-navbar-avatar" alt="Avatar">
+      <!-- Optional dropdown or user menu here -->
+    </div>
+  </div>
+</nav>
