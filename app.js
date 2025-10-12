@@ -1,6 +1,9 @@
 const express = require('express');
+const pool = require('./config/db');
 const path = require('path');
 const session = require('express-session');
+
+
 const expressLayouts = require('express-ejs-layouts');
 const authRoutes = require('./routes/authRoutes');
 const taskRoutes = require('./routes/taskRoutes');
@@ -46,14 +49,43 @@ app.use(commentsRoute);
 
 
 // Redirect root to login page
-app.get('/', (req, res) => {
-  if (req.session.user_id) {  // use user_id not userId
+
+
+app.get('/', async (req, res) => {
+  if (!req.session.user_id) return res.redirect('/auth/login');
+
+  const userId = req.session.user_id;
+
+  try {
+    const [countResults] = await pool.query(`
+      SELECT
+        SUM(status='pending' AND DATE(due_date) = CURDATE()) AS todayCount,
+        SUM(status='pending' AND DATE(due_date) > CURDATE()) AS upcomingCount,
+        SUM(status='pending') AS pendingCount,
+        SUM(status='completed') AS completedCount
+      FROM tasks WHERE user_id = ?;
+    `, [userId]);
+
+    const counts = countResults[0];
+    
+    const [tasks] = await pool.query(
+      'SELECT * FROM tasks WHERE user_id = ? ORDER BY due_date ASC',
+      [userId]
+    );
+
     res.render('dashboard', {
       userName: req.session.userName || 'User',
-      title: 'Dashboard - Task Management System'
+      todayCount: counts.todayCount,
+      upcomingCount: counts.upcomingCount,
+      pendingCount: counts.pendingCount,
+      completedCount: counts.completedCount,
+      tasks,
+      activeFilter: 'all',
+      title: 'Dashboard',
     });
-  } else {
-    res.redirect('/auth/login');
+  } catch (err) {
+    console.error('DB error:', err);
+    res.status(500).send('Database error');
   }
 });
 

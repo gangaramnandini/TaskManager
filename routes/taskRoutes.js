@@ -27,10 +27,13 @@ router.post('/tasks/:id/delete', taskController.deleteTask);
 
 router.post('/tasks/:id/toggle-ajax', taskController.toggleStatusAjax);
 
+router.get('/tasks/filter', taskController.getFilteredTasksPartial);
 
 router.get('/tasks/:task_id', taskController.getTaskDetails);
 
 // router.get('/tasks/:task_id', taskController.getTaskDetails);
+// Get filtered tasks (AJAX)
+// router.get('/tasks/filter', taskController.getFilteredTasks);
 
 
 module.exports = router;

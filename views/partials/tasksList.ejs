@@ -1,0 +1,17 @@
+<h2><%= title %></h2>
+
+<h5 class="mb-3">Showing <%= filter.charAt(0).toUpperCase() + filter.slice(1) %> Tasks</h5>
+
+<% if(tasks.length > 0) { %>
+  <% tasks.forEach(task => { %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h6 class="<%= task.status === 'completed' ? 'text-success' : '' %>"><%= task.title || 'Untitled Task' %></h6>
+        <p><%= task.description || '' %></p>
+        <small class="text-muted">Due: <%= task.due_date.toISOString().slice(0, 10) %></small>
+      </div>
+    </div>
+  <% }); %>
+<% } else { %>
+  <p>No tasks found.</p>
+<% } %>

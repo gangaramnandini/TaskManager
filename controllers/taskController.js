@@ -149,3 +149,54 @@ exports.getTaskDetails = async (req, res) => {
   }
 };
 
+//filtering
+
+// controllers/taskController.js
+
+// controllers/taskController.js
+exports.getFilteredTasksPartial = async (req, res) => {
+  if (!req.session.user_id) return res.status(401).send('Unauthorized');
+
+  const userId = req.session.user_id;
+  const filter = req.query.filter || 'all';
+  let query = '';
+  let params = [userId];
+
+  switch (filter) {
+    case 'today':
+      query = `SELECT * FROM tasks WHERE user_id = ? AND status='pending' AND due_date >= CURDATE() AND due_date < CURDATE() + INTERVAL 1 DAY ORDER BY due_date ASC`;
+      break;
+    case 'upcoming':
+      query = `SELECT * FROM tasks WHERE user_id = ? AND status='pending' AND due_date > CURDATE() ORDER BY due_date ASC`;
+      break;
+    case 'pending':
+      query = `SELECT * FROM tasks WHERE user_id = ? AND (status='pending' OR status IS NULL) ORDER BY due_date ASC`;
+      break;
+    case 'completed':
+      query = `SELECT * FROM tasks WHERE user_id = ? AND status='completed' ORDER BY due_date DESC`;
+      break;
+    default:
+      query = `SELECT * FROM tasks WHERE user_id = ? ORDER BY due_date ASC`;
+  }
+
+  try {
+    const [tasks] = await pool.query(query, params);
+    // res.render('partials/tasksList', { 
+    //   title: 'Task List',  // Add your desired title here
+    //   tasks, 
+    //   filter 
+    // });
+    res.render('partials/tasksList', {
+      title: 'Task List',   // or any string you want as heading
+      tasks,
+      filter,
+      layout: false
+    });
+    
+
+    
+  } catch (err) {
+    console.error('Error during task filtering:', err);
+    res.status(500).send('Failed to load tasks.');
+  }
+};
