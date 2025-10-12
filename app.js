@@ -9,6 +9,8 @@ const authRoutes = require('./routes/authRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const subtaskRoutes = require('./routes/subtaskRoutes');
 const commentsRoute = require('./routes/commentRoutes'); 
+const analyticsRoute = require('./routes/analyticsRoutes');
+
 require('dotenv').config();
 
 const app = express();
@@ -46,6 +48,7 @@ app.use('/auth', authRoutes);
 app.use(taskRoutes);
 app.use(subtaskRoutes);
 app.use(commentsRoute);
+app.use('/', analyticsRoute);
 
 
 // Redirect root to login page

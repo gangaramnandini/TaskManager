@@ -180,3 +180,45 @@ body {
     }
   }
   
+
+/* 
+  taskList.ejs in partials */
+
+  .task-card {
+    background-color: #f2e9e4;
+    border-radius: 1.5rem;
+    /* box-shadow: 0 2px 16px rgba(84,101,255,0.06); */
+    transition: box-shadow 0.18s;
+  }
+  .custom-task-card{
+    background-color: #f2e9e4;
+   
+  }
+  .task-card:hover {
+    box-shadow: 0 4px 24px rgba(84,101,255,0.11);
+  }
+  .task-title {
+    font-size: 1.35rem;
+    margin-bottom: .4rem;
+  }
+  .status-pill,
+  .priority-pill {
+    font-size: .97rem;
+    padding: .52em 1.14em;
+    border-radius: 2em;
+    font-weight: 500;
+    box-shadow: 0 1px 6px rgba(84,101,255,0.08); 
+   } 
+  .task-btn {
+    min-width: 95px;
+    font-weight: 500;
+    border-radius: .9em;
+  }
+  hr.border-light {
+    border-top-width: 1.2px;
+    opacity: .16;
+  }
+  .tasks-list-cards {
+    margin-top: .3rem;
+  }
+  

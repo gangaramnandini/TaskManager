@@ -1,17 +1,76 @@
-<h2><%= title %></h2>
-
-<h5 class="mb-3">Showing <%= filter.charAt(0).toUpperCase() + filter.slice(1) %> Tasks</h5>
-
 <% if(tasks.length > 0) { %>
-  <% tasks.forEach(task => { %>
-    <div class="card mb-3">
-      <div class="card-body">
-        <h6 class="<%= task.status === 'completed' ? 'text-success' : '' %>"><%= task.title || 'Untitled Task' %></h6>
-        <p><%= task.description || '' %></p>
-        <small class="text-muted">Due: <%= task.due_date.toISOString().slice(0, 10) %></small>
+  <div class="tasks-list-cards d-flex flex-column gap-4 mt-3 mb-3">
+    <% tasks.forEach(task => { %>
+      <div class="card task-card rounded-4 border-0 px-4 py-3 custom-task-card" style="background-color: #e9ecef; margin-left: 6px; margin-right:6px;">
+        <div class="mb-2">
+          <h3 class="fw-bold mb-1 task-title">
+            <%= task.title || 'Untitled Task' %>
+          </h3>
+          <hr class="border-light my-2" style="opacity: .45;">
+        </div>
+        <div class="text-secondary mb-2 task-desc fs-6">
+          <%= task.description || '' %>
+        </div>
+        <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
+          <span class="text-nowrap text-muted task-date fs-6">
+            <i class="bi bi-calendar2-event me-1"></i>
+            Due: <%= task.due_date ? task.due_date.toISOString().slice(0, 10) : "—" %>
+          </span>
+          <% if(task.completed_date) { %>
+            <span class="text-nowrap text-success ms-3 fs-6">
+              <i class="bi bi-check-circle me-1"></i>
+              Completed: <%= task.completed_date.toISOString().slice(0, 10) %>
+            </span>
+          <% } %>
+        </div>
+        <div class="d-flex gap-2 mb-2 flex-wrap">
+          <% if(task.status) { %>
+            <span class="badge status-pill rounded-pill px-3 py-2 <%= task.status === 'completed' ? 'bg-success' : (task.status === 'pending' ? 'bg-warning text-dark' : 'bg-primary') %>">
+              <%= task.status ? (task.status.charAt(0).toUpperCase() + task.status.slice(1)) : 'Unknown' %>
+            </span>
+          <% } %>
+          <% if(task.priority) { %>
+            <span class="badge priority-pill rounded-pill px-3 py-2 <%= task.priority === 'high' ? 'bg-danger' : 'bg-info text-dark' %>">
+              <i class="bi bi-flag-fill me-1"></i>
+              <%= task.priority.charAt(0).toUpperCase() + task.priority.slice(1) %> Priority
+            </span>
+          <% } %>
+        </div>
+        <div class="d-flex flex-wrap gap-4 align-items-center mb-2">
+          <% if(task.completed_sections !== undefined && task.total_sections !== undefined) { %>
+            <span class="text-secondary fs-6">
+              <i class="bi bi-list-check me-1"></i>
+              <%= task.completed_sections %>/<%= task.total_sections %> sections done
+            </span>
+          <% } %>
+          <% if(task.comments_count !== undefined) { %>
+            <span class="fs-6 text-secondary">
+              <i class="bi bi-chat-left-text me-1"></i>
+              <%= task.comments_count %> Comments
+            </span>
+          <% } %>
+        </div>
+        <div class="d-flex gap-2 mt-2 flex-wrap">
+          <!-- View task details -->
+          <a href="/tasks/<%= task.id %>" class="btn btn-outline-primary btn-sm px-3 task-btn"><i class="bi bi-eye me-1"></i>View</a>
+          <!-- Edit task page -->
+          <a href="/tasks/<%= task.task_id %>/edit" class="btn btn-outline-secondary btn-sm px-3 task-btn"><i class="bi bi-pencil me-1"></i>Edit</a>
+          <!-- Mark as done only if not yet completed -->
+          <% if(task.status !== 'completed') { %>
+            <form action="/tasks/<%= task.id %>/toggle-ajax" method="post" style="display:inline;">
+              <button type="submit" class="btn btn-primary btn-sm px-3 text-white task-btn"><i class="bi bi-check2-circle me-1"></i>Mark as Done</button>
+            </form>
+          <% } %>
+          <!-- Delete task -->
+          <form action="/tasks/<%= task.task_id %>/delete" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm px-3 task-btn"><i class="bi bi-trash me-1"></i>Delete</button>
+          </form>
+        </div>
       </div>
-    </div>
-  <% }); %>
+    <% }); %>
+  </div>
 <% } else { %>
-  <p>No tasks found.</p>
+  <div class="alert alert-light border text-center rounded-4 mt-3">
+    <i class="bi bi-info-circle me-2"></i>No tasks found.
+  </div>
 <% } %>
