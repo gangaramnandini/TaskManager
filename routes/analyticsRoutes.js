@@ -1,15 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const analyticsController = require('../controllers/analyticsController');
-const { ensureAuthenticated } = require('../middleware/auth');
 
-// Protect all analytics routes
-router.use(ensureAuthenticated);
-
-// Main analytics page
+// Route for dashboard page
 router.get('/analytics', analyticsController.renderAnalyticsPage);
-
-// Endpoint to get analytics data
+// Route for analytics data API
 router.get('/analytics/data', analyticsController.getAnalyticsData);
 
 module.exports = router;
