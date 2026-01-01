@@ -1,0 +1,68 @@
+<div class="container-fluid">
+    <div class="page-header mb-4">
+        <div>
+            <h2 class="page-title">My Profile</h2>
+            <div class="page-subtitle">Manage your account settings</div>
+        </div>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <div class="col-lg-6">
+
+            <% if (success) { %>
+                <div class="alert alert-success">
+                    <%= success %>
+                </div>
+                <% } %>
+
+                    <% if (error) { %>
+                        <div class="alert alert-danger">
+                            <%= error %>
+                        </div>
+                        <% } %>
+
+                            <!-- Update Details Card -->
+                            <div class="glass-panel p-4 mb-4">
+                                <h5 class="fw-bold mb-4">Personal Details</h5>
+                                <form action="/profile/update" method="POST">
+                                    <div class="mb-3">
+                                        <label class="form-label text-muted small fw-bold text-uppercase">Email</label>
+                                        <input type="text" class="form-control" value="<%= user.email %>" disabled
+                                            readonly style="background-color: var(--bg-body);">
+                                        <div class="form-text">Email cannot be changed.</div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="name"
+                                            class="form-label text-muted small fw-bold text-uppercase">Full Name</label>
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            value="<%= user.name %>" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary-glass">Update Profile</button>
+                                </form>
+                            </div>
+
+                            <!-- Change Password Card -->
+                            <div class="glass-panel p-4">
+                                <h5 class="fw-bold mb-4">Change Password</h5>
+                                <form action="/profile/password" method="POST">
+                                    <div class="mb-3">
+                                        <label for="currentPassword"
+                                            class="form-label text-muted small fw-bold text-uppercase">Current
+                                            Password</label>
+                                        <input type="password" class="form-control" id="currentPassword"
+                                            name="currentPassword" required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="newPassword"
+                                            class="form-label text-muted small fw-bold text-uppercase">New
+                                            Password</label>
+                                        <input type="password" class="form-control" id="newPassword" name="newPassword"
+                                            required>
+                                    </div>
+                                    <button type="submit" class="btn btn-warning text-white">Change Password</button>
+                                </form>
+                            </div>
+
+        </div>
+    </div>
+</div>

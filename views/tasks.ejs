@@ -1,105 +1,18 @@
-<%- include('partials/header') %>
-
-<style>
-  .task-box {
-    cursor: pointer;
-  }
-  .task-box:hover {
-    background-color: #f9f9f9;
-  }
-</style>
-
-<div class="container my-5">
-  <h2 class="mb-4">My Tasks</h2>
-  <a href="/tasks/add" class="btn btn-primary mb-3">Add New Task</a>
-
-  <% if (tasks.length === 0) { %>
-    <div class="alert alert-info">No tasks found.</div>
-  <% } else { %>
-    <div class="list-group">
-      <% tasks.forEach(task => { %>
-        <div
-          class="list-group-item d-flex justify-content-between align-items-center task-box"
-          tabindex="0"
-          role="button"
-          aria-label="Open task <%= task.title %>"
-          onkeydown="if(event.key==='Enter'){ window.location.href = '/tasks/<%= task.task_id %>' }"
-          onclick="if(event.target.tagName !== 'INPUT' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'A') { window.location.href = '/tasks/<%= task.task_id %>'; }"
-        >
-          <div>
-            <!-- Checkbox for Mark as Done / Undo -->
-            <div class="d-flex align-items-center mb-1">
-              <input
-                type="checkbox"
-                class="form-check-input me-2 task-toggle"
-                data-task-id="<%= task.task_id %>"
-                <%= task.status === 'completed' ? 'checked' : '' %>
-                onclick="event.stopPropagation();"
-              >
-              <label class="mb-0 task-title <%= task.status === 'completed' ? 'text-decoration-line-through text-muted' : '' %>">
-                <%= task.title %>
-              </label>
-            </div>
-
-            <!-- Task details -->
-            <p class="mb-1"><%= task.description %></p>
-            <small>Due: <%= task.due_date ? task.due_date.toISOString().split('T')[0] : 'N/A' %></small>
-            <br>
-            <small>Priority: <span class="badge bg-info"><%= task.priority %></span></small>
-            <small>Status: 
-              <span class="badge badge-status <%= task.status === 'completed' ? 'bg-success' : 'bg-warning' %>">
-                <%= task.status %>
-              </span>
-            </small>
-          </div>
-
-          <!-- Action buttons -->
-          <div>
-            <a href="/tasks/<%= task.task_id %>/edit" class="btn btn-sm btn-outline-secondary me-2">Edit</a>
-            <form action="/tasks/<%= task.task_id %>/delete" method="POST" class="d-inline" onsubmit="event.stopPropagation();">
-              <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-            </form>
-          </div>
-        </div>
-      <% }) %>
+<div class="container-fluid">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h2 class="page-title">My Tasks</h2>
+      <div class="page-subtitle">Manage and track your workload</div>
     </div>
-  <% } %>
+    <a href="/tasks/add" class="btn-primary-glass text-decoration-none">
+      <i class="bi bi-plus-lg me-2"></i>Add New Task
+    </a>
+  </div>
+
+  <!-- Task List -->
+  <!-- Task List -->
+  <div id="tasks-container">
+    <%- include('partials/tasksList', { tasks }) %>
+  </div>
 </div>
-
-<!-- AJAX script for Mark as Done / Undo -->
-<script>
-document.querySelectorAll('.task-toggle').forEach(checkbox => {
-  checkbox.addEventListener('change', async function() {
-    const taskId = this.dataset.taskId;
-    const newStatus = this.checked ? 'completed' : 'pending';
-    const listItem = this.closest('.list-group-item');
-    const titleLabel = listItem.querySelector('.task-title');
-    const statusBadge = listItem.querySelector('.badge-status');
-
-    try {
-      const response = await fetch(`/tasks/${taskId}/toggle-ajax`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus })
-      });
-
-      if (response.ok) {
-        // Update UI instantly
-        statusBadge.textContent = newStatus;
-        statusBadge.className = 'badge badge-status ' + (newStatus === 'completed' ? 'bg-success' : 'bg-warning');
-        titleLabel.classList.toggle('text-decoration-line-through', newStatus === 'completed');
-        titleLabel.classList.toggle('text-muted', newStatus === 'completed');
-      } else {
-        alert('Failed to update task');
-        this.checked = !this.checked; // revert checkbox if failed
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Error updating task');
-      this.checked = !this.checked; // revert checkbox
-    }
-  });
-});
-</script>
-
-<%- include('partials/footer') %>

@@ -1,0 +1,102 @@
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <h2 class="page-title">Activity Log</h2>
+            <div class="page-subtitle">Track all your task activities</div>
+        </div>
+    </div>
+code
+Code
+<div class="glass-panel p-4">
+    <% if (history && history.length> 0) { %>
+        <!-- Activity Timeline -->
+        <div class="d-flex flex-column gap-3">
+            <% history.forEach(item=> {
+                let iconBg = 'bg-secondary';
+                let iconClass = 'bi-circle';
+                let actionColor = 'text-secondary';
+
+                if (item.action_type === 'created') {
+                iconBg = 'bg-success';
+                iconClass = 'bi-plus-lg';
+                actionColor = 'text-success';
+                } else if (item.action_type === 'updated') {
+                iconBg = 'bg-info';
+                iconClass = 'bi-pencil-fill';
+                actionColor = 'text-info';
+                } else if (item.action_type === 'status_changed') {
+                iconBg = 'bg-warning';
+                iconClass = 'bi-arrow-repeat';
+                actionColor = 'text-warning';
+                } else if (item.action_type === 'deleted') {
+                iconBg = 'bg-danger';
+                iconClass = 'bi-trash-fill';
+                actionColor = 'text-danger';
+                } else if (item.action_type === 'comment_added') {
+                iconBg = 'bg-primary';
+                iconClass = 'bi-chat-left-text-fill';
+                actionColor = 'text-primary';
+                }
+                %>
+
+                <div class="list-item-glass p-3 d-flex align-items-start gap-3">
+                    <!-- Icon -->
+                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                        style="width: 40px; height: 40px; background-color: var(--<%= iconBg.replace('bg-', '') %>-bg); color: var(--<%= iconBg.replace('bg-', '') %>-text);">
+                        <i class="bi <%= iconClass %>"></i>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <div>
+                                <span class="fw-bold text-dark">
+                                    <%= item.user_name %>
+                                </span>
+                                <span class="text-muted mx-1">•</span>
+                                <span class="text-uppercase small fw-bold <%= actionColor %>"
+                                    style="letter-spacing: 0.5px;">
+                                    <%= item.action_type.replace(/_/g, ' ' ) %>
+                                </span>
+                            </div>
+                            <span class="text-muted small text-nowrap ms-2">
+                                <%= new Date(item.created_at).toLocaleString([], { month: 'short' , day: 'numeric' ,
+                                    hour: '2-digit' , minute: '2-digit' }) %>
+                            </span>
+                        </div>
+
+                        <div class="mb-1">
+                            <% if (item.task_id) { %>
+                                <a href="/tasks/<%= item.task_id %>"
+                                    class="text-decoration-none fw-bold text-main fs-5">
+                                    <%= item.task_title || 'Unknown Task' %>
+                                </a>
+                                <% } else { %>
+                                    <span class="fw-bold text-muted fs-5">
+                                        <%= item.task_title || 'Deleted Task' %>
+                                    </span>
+                                    <% } %>
+                        </div>
+
+                        <div class="text-muted small">
+                            <%= item.details %>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+        <% } else { %>
+            <div class="empty-state">
+                <div class="empty-state-icon">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+                <h3>No Recent Activity</h3>
+                <p class="text-muted">Your task activities will appear here.</p>
+                <a href="/tasks/add" class="btn btn-primary-glass">
+                    <i class="bi bi-plus-lg me-2"></i>Create Task
+                </a>
+            </div>
+            <% } %>
+</div>
+</div>

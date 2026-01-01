@@ -25,13 +25,19 @@ router.post('/tasks/:id/edit', taskController.editTask);
 // Delete task
 router.post('/tasks/:id/delete', taskController.deleteTask);
 
-router.post('/tasks/:id/toggle-ajax', taskController.toggleStatusAjax);
+// Toggle Status (Sync)
+router.post('/tasks/:id/toggle', taskController.toggleStatusSync);
+
+// Search API (AJAX) - MUST be before /tasks/:id
+router.get('/tasks/search', taskController.searchTasks);
 
 router.get('/tasks/filter', taskController.getFilteredTasksPartial);
 
 router.get('/tasks/:task_id', taskController.getTaskDetails);
 
-// router.get('/tasks/:task_id', taskController.getTaskDetails);
+// Search Page
+router.get('/search', taskController.getSearchPage);
+
 // Get filtered tasks (AJAX)
 // router.get('/tasks/filter', taskController.getFilteredTasks);
 

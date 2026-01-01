@@ -1,98 +1,148 @@
-<div class="dashboard-header-bar d-flex justify-content-between align-items-center mb-3">
-  <h2 class="fw-bold mb-0">Dashboard</h2>
-  <a href="/tasks/add" class="btn btn-primary dashboard-addtask-btn">
-    <i class="bi bi-plus-lg me-1"></i>Add Task
-  </a>
+<div class="container-fluid">
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h2 class="page-title">Dashboard</h2>
+      <div class="page-subtitle">
+        Welcome back, <%= userName || 'User' %>!
+          <div class="header-date">
+            <i class="bi bi-calendar3"></i>
+            <%= new Date().toLocaleDateString('en-US', { weekday: 'long' , year: 'numeric' , month: 'long' ,
+              day: 'numeric' }) %>
+          </div>
+      </div>
+    </div>
+    <a href="/tasks/add" class="btn btn-primary-glass text-decoration-none">
+      <i class="bi bi-plus-lg me-2"></i>New Task
+    </a>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="row g-4 mb-4">
+    <div class="col-6 col-xl-3">
+      <div class="glass-card stat-card primary h-100 p-4">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div class="stat-label">Today's Tasks</div>
+          <div class="icon-box-sm">
+            <i class="bi bi-calendar-day"></i>
+          </div>
+        </div>
+        <div class="stat-value">
+          <%= todayCount || 0 %>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-xl-3">
+      <div class="glass-card stat-card warning h-100 p-4">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div class="stat-label">Pending</div>
+          <div class="icon-box-sm">
+            <i class="bi bi-hourglass-split"></i>
+          </div>
+        </div>
+        <div class="stat-value">
+          <%= pendingCount || 0 %>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-xl-3">
+      <div class="glass-card stat-card info h-100 p-4">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div class="stat-label">Upcoming</div>
+          <div class="icon-box-sm">
+            <i class="bi bi-calendar-event"></i>
+          </div>
+        </div>
+        <div class="stat-value">
+          <%= upcomingCount || 0 %>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-xl-3">
+      <div class="glass-card stat-card success h-100 p-4">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div class="stat-label">Completed</div>
+          <div class="icon-box-sm">
+            <i class="bi bi-check-circle"></i>
+          </div>
+        </div>
+        <div class="stat-value">
+          <%= completedCount || 0 %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Main Task List -->
+    <div class="col-12 col-xl-8">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h4 class="mb-0 fw-bold">My Tasks</h4>
+        <!-- Modern Filters -->
+        <div class="dashboard-filters">
+          <a href="/?filter=all" class="filter-btn-pill <%= activeFilter === 'all' ? 'active' : '' %>">All</a>
+          <a href="/?filter=today" class="filter-btn-pill <%= activeFilter === 'today' ? 'active' : '' %>">Today</a>
+          <a href="/?filter=upcoming"
+            class="filter-btn-pill <%= activeFilter === 'upcoming' ? 'active' : '' %>">Upcoming</a>
+          <a href="/?filter=pending"
+            class="filter-btn-pill <%= activeFilter === 'pending' ? 'active' : '' %>">Pending</a>
+          <a href="/?filter=completed"
+            class="filter-btn-pill <%= activeFilter === 'completed' ? 'active' : '' %>">Done</a>
+        </div>
+      </div>
+
+      <div id="tasks-container">
+        <%- include('partials/tasksList', { tasks: tasks }) %>
+      </div>
+    </div>
+
+    <!-- Side Panel -->
+    <div class="col-lg-4">
+      <!-- Profile Card -->
+      <div class="glass-panel p-4 mb-4 text-center">
+        <div class="position-relative d-inline-block mb-3">
+          <img src="https://ui-avatars.com/api/?name=<%= userName %>&background=4f46e5&color=fff&rounded=true"
+            class="rounded-circle shadow-sm"
+            style="width: 80px; height: 80px; object-fit: cover; border: 4px solid var(--bg-surface);" alt="Avatar">
+          <span class="position-absolute bottom-0 end-0 p-2 bg-success border border-white rounded-circle">
+            <span class="visually-hidden">Online</span>
+          </span>
+        </div>
+        <h5 class="fw-bold mb-1">
+          <%= userName || 'User' %>
+        </h5>
+        <div class="text-muted small mb-3">Productivity Enthusiast</div>
+        <div class="d-flex justify-content-center gap-2">
+          <a href="/auth/logout" class="btn btn-light btn-sm rounded-pill px-4 text-danger fw-semibold">Logout</a>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="glass-panel p-4">
+        <h6 class="fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-lightning-charge-fill text-warning"></i> Quick Actions
+        </h6>
+        <div class="d-flex flex-column gap-2">
+          <a href="/tasks/add" class="btn btn-light text-start shadow-sm border-0 section-hover py-3">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-plus-circle-fill me-3 fs-5 text-primary"></i>
+              <div>
+                <div class="fw-bold">Create New Task</div>
+                <div class="small text-muted">Add to your workload</div>
+              </div>
+            </div>
+          </a>
+          <a href="/activity" class="btn btn-light text-start shadow-sm border-0 section-hover py-3">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-clock-history me-3 fs-5 text-info"></i>
+              <div>
+                <div class="fw-bold">View Activity</div>
+                <div class="small text-muted">Check recent updates</div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<!-- Task Summary Cards -->
-<div class="row mb-3 g-3">
-  <div class="col-6 col-md-3">
-    <div class="card small rounded-4 text-center shadow-sm">
-      <div class="card-body">
-        <div class="mb-1 text-muted small">Today's Tasks</div>
-        <div class="fs-3 fw-bold text-primary"><%= todayCount || 0 %></div>
-      </div>
-    </div>
-  </div>
-  <div class="col-6 col-md-3">
-    <div class="card small rounded-4 text-center shadow-sm">
-      <div class="card-body">
-        <div class="mb-1 text-muted small">Upcoming Tasks</div>
-        <div class="fs-3 fw-bold text-info"><%= upcomingCount || 0 %></div>
-      </div>
-    </div>
-  </div>
-  <div class="col-6 col-md-3">
-    <div class="card small rounded-4 text-center shadow-sm">
-      <div class="card-body">
-        <div class="mb-1 text-muted small">Pending Tasks</div>
-        <div class="fs-3 fw-bold text-danger"><%= pendingCount || 0 %></div>
-      </div>
-    </div>
-  </div>
-  <div class="col-6 col-md-3">
-    <div class="card small rounded-4 text-center shadow-sm">
-      <div class="card-body">
-        <div class="mb-1 text-muted small">Completed Tasks</div>
-        <div class="fs-3 fw-bold text-success"><%= completedCount || 0 %></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Filter Tab Bar -->
-<div class="task-tabs mb-4 d-flex gap-1">
-  <button class="btn btn-light tab-btn <%= activeFilter === 'all' ? 'active' : '' %>" data-filter="all">All Tasks</button>
-  <button class="btn btn-light tab-btn <%= activeFilter === 'today' ? 'active' : '' %>" data-filter="today">Today's</button>
-  <button class="btn btn-light tab-btn <%= activeFilter === 'upcoming' ? 'active' : '' %>" data-filter="upcoming">Upcoming</button>
-  <button class="btn btn-light tab-btn <%= activeFilter === 'pending' ? 'active' : '' %>" data-filter="pending">Pending</button>
-  <button class="btn btn-light tab-btn <%= activeFilter === 'completed' ? 'active' : '' %>" data-filter="completed">Completed</button>
-</div>
-
-
-
-<div class="row g-4">
-  <!-- Tasks Table Section -->
-  <div class="col-lg-8">
-    <div class="card dashboard-tasklist rounded-4 shadow-sm fade-in" id="tasks-container">
-      <%- include('partials/tasksList', { tasks, filter: activeFilter }) %>
-    </div>
-  </div>
-
-  <!-- Profile and Activity Log Side Section -->
-  <div class="col-lg-4">
-    <div class="card rounded-4 shadow-sm mb-4 dashboard-profile-card">
-      <div class="card-body text-center py-4">
-        <img src="/public/images/avatar.svg" class="dashboard-avatar mb-3" alt="Avatar">
-        <h6 class="mb-0 fw-semibold text-primary"><%= userName || 'User' %></h6>
-        <div class="text-muted small mb-1">user@email.com</div>
-        <div class="text-muted small">Task Warrior</div>
-      </div>
-    </div>
-    <div class="card rounded-4 shadow-sm dashboard-activity-card">
-      <div class="card-body py-4">
-        <h6 class="fw-bold mb-3">Activity Log</h6>
-        <ul class="list-group list-group-flush activity-log-list">
-          <li class="list-group-item text-muted small">No recent activity</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<style>
-  .tab-btn.active {
-    border: 2px solid #0d6efd;
-    background: #eaf1ff !important;
-    color: #0d6efd;
-    font-weight: 600;
-  }
-  .dashboard-tasklist { min-height:150px; }
-  .fade-in { animation: fadeIn 0.4s;}
-  @keyframes fadeIn { from {opacity: 0;} to {opacity:1;} }
-  .task-completed { text-decoration: line-through; color: #198754; }
-</style>
-
-<script src="/public/js/dashboard.js"></script>
-

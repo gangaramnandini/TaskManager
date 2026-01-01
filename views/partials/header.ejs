@@ -1,15 +1,21 @@
-<nav class="dashboard-navbar navbar navbar-expand-lg px-0 shadow-sm border-bottom bg-white mb-0">
+<nav class="dashboard-navbar navbar navbar-expand-lg px-0 shadow-none">
   <div class="container-fluid px-4">
-    <span class="navbar-brand dashboard-navbar-title fw-bold fs-4">
-      <i class="bi bi-kanban me-2"></i>TaskManagementSystem
-    </span>
+    <a href="/" class="navbar-brand dashboard-navbar-title fw-bold fs-4 text-decoration-none">
+      <i class="bi bi-kanban"></i>
+      <span>TaskManager</span>
+    </a>
+
     <div class="ms-auto d-flex align-items-center">
-      <button class="btn btn-light p-2 me-3 border-0 dashboard-notif-btn rounded-circle">
+      <!-- Notification Icon -->
+      <button class="btn dashboard-notif-btn rounded-circle me-3">
         <i class="bi bi-bell fs-5 text-secondary"></i>
       </button>
-      <span class="dashboard-username fw-bold me-2"><%= userName || 'User' %></span>
-      <img src="/public/images/avatar.svg" class="dashboard-navbar-avatar" alt="Avatar">
-      <!-- Optional dropdown or user menu here -->
+
+      <!-- User Profile Link -->
+      <a href="/profile" class="d-flex align-items-center text-decoration-none gap-2">
+        <span class="dashboard-username fw-bold d-none d-sm-inline"><%= userName || 'User' %></span>
+        <img src="/public/images/avatar.svg" class="dashboard-navbar-avatar" alt="Avatar">
+      </a>
     </div>
   </div>
 </nav>

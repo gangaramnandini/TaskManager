@@ -493,8 +493,7 @@ h6 {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 1.5rem 0.8rem;
-  /* Breathing room */
+  padding: 1.5rem 0.8rem; /* Breathing room */
 }
 
 /* --- Brand Section --- */
@@ -514,8 +513,7 @@ h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  /* Modern "Squircle" look */
+  border-radius: 10px; /* Modern "Squircle" look */
   font-weight: 800;
   font-size: 0.85rem;
   box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
@@ -577,7 +575,7 @@ h6 {
   font-weight: 600;
   border: 1px solid var(--border-color) !important;
   transition: all 0.2s;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 #themeToggle:hover {
@@ -597,8 +595,7 @@ h6 {
 .user-avatar {
   width: 38px;
   height: 38px;
-  border-radius: 10px;
-  /* Matching the logo style */
+  border-radius: 10px; /* Matching the logo style */
   background: #e2e8f0;
   transition: transform 0.2s;
 }
@@ -654,8 +651,7 @@ h6 {
 }
 
 /* Glassmorphism Components */
-.glass-card,
-.glass-panel {
+.glass-card, .glass-panel {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -736,13 +732,13 @@ h6 {
 
 /* Side Panel - Profile Card */
 .glass-panel .rounded-circle {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
 }
 
 .section-hover {
   padding: 12px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255,255,255,0.5);
   border: 1px solid transparent !important;
   transition: all 0.2s ease;
 }
@@ -755,92 +751,46 @@ h6 {
 }
 
 /* Stat Colors Accents */
-.stat-card.primary {
-  border-bottom: 4px solid var(--primary-indigo);
-}
-
-.stat-card.warning {
-  border-bottom: 4px solid #f59e0b;
-}
-
-.stat-card.info {
-  border-bottom: 4px solid #3b82f6;
-}
-
-.stat-card.success {
-  border-bottom: 4px solid #10b981;
-}
+.stat-card.primary { border-bottom: 4px solid var(--primary-indigo); }
+.stat-card.warning { border-bottom: 4px solid #f59e0b; }
+.stat-card.info { border-bottom: 4px solid #3b82f6; }
+.stat-card.success { border-bottom: 4px solid #10b981; }
 
 /* TASK LIST - PROFESSIONAL REFINEMENT */
 
 /* The Task Row Container */
-/* The Task Row Container */
 .task-row {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  /* Slightly larger radius */
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium) !important;
+  border-radius: var(--radius-md);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
-  margin-bottom: 0.75rem;
-  /* Better spacing */
-  padding: 1.25rem !important;
-  /* Airy feel */
 }
 
 .task-row:hover {
-  transform: translateY(-2px) translateX(2px);
-  /* Subtle lift and shift */
-  border-color: var(--primary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  /* Softer shadow */
+  transform: translateX(4px);
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
-/* Priority Indicators (Left Border) */
-.task-row::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: transparent;
-  transition: background 0.2s;
-}
-
-.task-row:hover::before {
-  background: var(--primary);
-  /* Default hover indicator */
-}
-
-/* Custom Checkbox/Toggle Styling */
+/* Status Checkbox Styling */
 .status-toggle-btn {
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.2s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
 }
 
 .status-toggle-btn:hover {
-  transform: scale(1.2);
-}
-
-.status-toggle-btn i {
-  font-size: 1.4rem;
-  transition: color 0.2s;
+  transform: scale(1.15);
 }
 
 .status-toggle-btn .bi-circle {
-  color: var(--text-muted);
-  opacity: 0.5;
+  color: var(--border-medium);
 }
 
-.task-row:hover .status-toggle-btn .bi-circle {
-  color: var(--primary);
-  opacity: 1;
+.status-toggle-btn:hover .bi-circle {
+  color: var(--brand-primary);
 }
 
 /* Task Title Styling */
@@ -848,408 +798,3 @@ h6 {
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--text-main);
-}
-
-/* ACTIVITY LOG TIMELINE - PROFESSIONAL REDESIGN */
-
-.timeline-container {
-  padding: 2rem 0;
-  position: relative;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* The vertical line */
-.timeline-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 24px;
-  /* Adjust based on icon size */
-  width: 2px;
-  background: var(--border-color);
-  z-index: 0;
-}
-
-.timeline-row {
-  position: relative;
-  padding-left: 60px;
-  /* Space for icon */
-  padding-bottom: 2rem;
-  z-index: 1;
-}
-
-.timeline-row:last-child {
-  padding-bottom: 0;
-}
-
-/* Timeline Icon */
-.timeline-icon-wrapper {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-surface);
-  border: 4px solid var(--bg-body);
-  /* Creates gap effect */
-  z-index: 2;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease;
-}
-
-.timeline-icon-wrapper i {
-  font-size: 1.25rem;
-}
-
-.timeline-row:hover .timeline-icon-wrapper {
-  transform: scale(1.1);
-}
-
-/* Timeline Content Card */
-.timeline-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.2s ease;
-}
-
-.timeline-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-  border-color: var(--primary);
-}
-
-/* Typography & Details */
-.timeline-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.5rem;
-}
-
-.timeline-user-name {
-  font-weight: 700;
-  color: var(--text-main);
-  font-size: 1rem;
-}
-
-.timeline-action-badge {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  padding: 2px 8px;
-  border-radius: 4px;
-  background-color: var(--bg-body);
-  margin-left: 0.5rem;
-}
-
-.timeline-refresh-date {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-
-.timeline-body {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-.timeline-task-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 700;
-  color: var(--text-main);
-  text-decoration: none;
-  margin-top: 0.5rem;
-  font-size: 1.05rem;
-  transition: color 0.15s;
-}
-
-.timeline-task-link:hover {
-  color: var(--primary);
-}
-
-/* Status variants for icons */
-.timeline-icon-wrapper.variant-created {
-  background-color: var(--success-bg);
-  color: var(--success-text);
-}
-
-.timeline-icon-wrapper.variant-updated {
-  background-color: var(--info-bg);
-  color: var(--info-text);
-}
-
-.timeline-icon-wrapper.variant-status {
-  background-color: var(--warning-bg);
-  color: var(--warning-text);
-}
-
-.timeline-icon-wrapper.variant-deleted {
-  background-color: var(--danger-bg);
-  color: var(--danger-text);
-}
-
-.timeline-icon-wrapper.variant-comment {
-  background-color: var(--bg-surface);
-  border: 2px solid var(--primary);
-  color: var(--primary);
-}
-
-/* Dark mode adjustments */
-[data-theme="dark"] .timeline-icon-wrapper {
-  border-color: var(--bg-body);
-}
-
-[data-theme="dark"] .timeline-card {
-  background: var(--card-bg);
-}
-
-[data-theme="dark"] .timeline-action-badge {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-
-
-.task-title-link:hover {
-  color: var(--brand-primary);
-}
-
-.task-completed-text {
-  color: var(--text-muted) !important;
-  text-decoration-color: var(--brand-success) !important;
-  opacity: 0.6;
-}
-
-/* Priority Badges (The "Human-Made" Palette) */
-.badge-priority {
-  padding: 0.35em 0.8em;
-  font-weight: 700;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 6px;
-}
-
-.priority-high {
-  background: #fee2e2;
-  color: #dc2626;
-}
-
-.priority-medium {
-  background: #e0e7ff;
-  color: #4f46e5;
-}
-
-.priority-low {
-  background: #f1f5f9;
-  color: #475569;
-}
-
-/* Due Date Indicators */
-.task-date {
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.task-overdue .task-date {
-  color: var(--brand-danger) !important;
-  font-weight: 700;
-}
-
-.task-today .task-date {
-  color: var(--brand-primary);
-  font-weight: 700;
-}
-
-/* Action Buttons (Subtle until hover) */
-.task-actions .btn-light {
-  background: transparent;
-  color: var(--text-muted);
-  border-radius: 8px;
-  transition: all 0.2s;
-}
-
-.task-actions .btn-light:hover {
-  background: var(--bg-main);
-}
-
-.task-actions .btn-light:hover.text-primary {
-  color: var(--brand-primary) !important;
-}
-
-.task-actions .btn-light:hover.text-danger {
-  color: var(--brand-danger) !important;
-}
-
-/* Empty State */
-.empty-state-icon {
-  background: var(--bg-main);
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  margin: 0 auto 1.5rem;
-  color: var(--text-muted);
-  font-size: 2.5rem;
-}
-
-/* DASHBOARD REDESIGN & UI CONSISTENCY */
-
-/* 1. Enhanced Stat Cards */
-.stat-card {
-  position: relative;
-  overflow: hidden;
-  border: none !important;
-  /* Override default border */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  z-index: 1;
-}
-
-.stat-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 120px;
-  height: 120px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
-  border-radius: 50%;
-  transform: translate(30%, -30%);
-  z-index: -1;
-  pointer-events: none;
-}
-
-.stat-card.primary {
-  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
-  color: white;
-}
-
-.stat-card.warning {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  color: white;
-}
-
-.stat-card.info {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: white;
-}
-
-.stat-card.success {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
-}
-
-.stat-card .stat-label {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-}
-
-.stat-card .stat-value {
-  color: white;
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin-top: 0.5rem;
-}
-
-.stat-card .icon-box-sm {
-  background: rgba(255, 255, 255, 0.2) !important;
-  color: white !important;
-  border-radius: 12px;
-}
-
-/* 2. Modern Filter Pills */
-.dashboard-filters {
-  background: var(--bg-surface);
-  padding: 6px;
-  border-radius: 16px;
-  /* Pill shape container */
-  display: inline-flex;
-  gap: 4px;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color);
-}
-
-.filter-btn-pill {
-  padding: 8px 16px;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.filter-btn-pill:hover {
-  color: var(--text-main);
-  background: rgba(0, 0, 0, 0.03);
-}
-
-.filter-btn-pill.active {
-  background: var(--primary);
-  color: white;
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
-}
-
-/* 3. Welcome Section Date */
-.header-date {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-}
-
-/* Dark Mode Adjustments for New Dashboard */
-[data-theme="dark"] .stat-card .stat-label {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-[data-theme="dark"] .dashboard-filters {
-  background: var(--card-bg);
-  border-color: var(--border-color);
-}
-
-[data-theme="dark"] .filter-btn-pill:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-main);
-}
-
-/* Glass Component Dark Mode Overrides */
-[data-theme="dark"] .glass-card,
-[data-theme="dark"] .glass-panel {
-  background: rgba(30, 41, 59, 0.7) !important;
-  /* Darker slate for contrast */
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-[data-theme="dark"] .glass-card:hover {
-  background: rgba(30, 41, 59, 0.9) !important;
-  box-shadow: 0 12px 25px -10px rgba(0, 0, 0, 0.5);
-}
-
-[data-theme="dark"] .section-hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-[data-theme="dark"] .section-hover:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
-  color: var(--primary) !important;
-}

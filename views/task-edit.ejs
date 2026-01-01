@@ -1,61 +1,48 @@
-<%- include('partials/header') %>
+<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card p-5 w-100" style="max-width: 600px;">
+    <h2 class="text-center fw-bold mb-4">Edit Task</h2>
 
-<div class="container my-5" style="max-width: 600px;">
-  <h2 class="mb-4">Edit Task</h2>
-  <form action="/tasks/<%= task.task_id %>/edit" method="POST">
-    <div class="mb-3">
-      <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
-      <input
-        type="text"
-        class="form-control"
-        id="title"
-        name="title"
-        value="<%= task.title %>"
-        required>
-    </div>
+    <form action="/tasks/<%= task.task_id %>/edit" method="POST" novalidate>
+      <div class="mb-4">
+        <label for="title" class="form-label text-muted small text-uppercase fw-bold">Title</label>
+        <input type="text" class="form-control" id="title" name="title" value="<%= task.title %>" required
+          placeholder="What needs to be done?">
+      </div>
 
-    <div class="mb-3">
-      <label for="description" class="form-label">Description</label>
-      <textarea
-        class="form-control"
-        id="description"
-        name="description"
-        rows="3"><%= task.description %></textarea>
-    </div>
+      <div class="mb-4">
+        <label for="description" class="form-label text-muted small text-uppercase fw-bold">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3"
+          placeholder="Add some details..."><%= task.description %></textarea>
+      </div>
 
-    <div class="mb-3">
-      <label for="due_date" class="form-label">Due Date</label>
-      <input
-        type="date"
-        class="form-control"
-        id="due_date"
-        name="due_date"
-        value="<%= task.due_date ? task.due_date.toISOString().split('T')[0] : '' %>">
-    </div>
+      <div class="row mb-4">
+        <div class="col-6">
+          <label for="due_date" class="form-label text-muted small text-uppercase fw-bold">Due Date</label>
+          <input type="date" class="form-control" id="due_date" name="due_date"
+            value="<%= task.due_date ? task.due_date.toISOString().split('T')[0] : '' %>">
+        </div>
+        <div class="col-6">
+          <label for="priority" class="form-label text-muted small text-uppercase fw-bold">Priority</label>
+          <select class="form-select" id="priority" name="priority">
+            <option value="Low" <%=task.priority==='Low' ? 'selected' : '' %>>Low</option>
+            <option value="Medium" <%=task.priority==='Medium' ? 'selected' : '' %>>Medium</option>
+            <option value="High" <%=task.priority==='High' ? 'selected' : '' %>>High</option>
+          </select>
+        </div>
+      </div>
 
-
-    <div class="mb-3">
-      <label for="priority" class="form-label">Priority</label>
-      <select class="form-select" id="priority" name="priority">
-        <option value="Low" <%= task.priority === 'Low' ? 'selected' : '' %>>Low</option>
-        <option value="Medium" <%= task.priority === 'Medium' ? 'selected' : '' %>>Medium</option>
-        <option value="High" <%= task.priority === 'High' ? 'selected' : '' %>>High</option>
-      </select>
-    </div>
-
-    <div class="mb-3">
-        <label for="status" class="form-label">Status</label>
+      <div class="mb-4">
+        <label for="status" class="form-label text-muted small text-uppercase fw-bold">Status</label>
         <select class="form-select" id="status" name="status">
-          <option value="pending" <%= task.status === 'pending' ? 'selected' : '' %>>Pending</option>
-          <option value="completed" <%= task.status === 'completed' ? 'selected' : '' %>>Completed</option>
+          <option value="pending" <%=task.status==='pending' ? 'selected' : '' %>>Pending</option>
+          <option value="completed" <%=task.status==='completed' ? 'selected' : '' %>>Completed</option>
         </select>
       </div>
-      
-      
 
-    <button type="submit" class="btn btn-primary">Update Task</button>
-    <a href="/tasks" class="btn btn-secondary ms-2">Cancel</a>
-  </form>
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary py-3 fs-5">Update Task</button>
+        <a href="/tasks" class="btn btn-light text-muted py-2">Cancel</a>
+      </div>
+    </form>
+  </div>
 </div>
-
-<%- include('partials/footer') %>

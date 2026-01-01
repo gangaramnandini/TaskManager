@@ -8,8 +8,10 @@ const expressLayouts = require('express-ejs-layouts');
 const authRoutes = require('./routes/authRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const subtaskRoutes = require('./routes/subtaskRoutes');
-const commentsRoute = require('./routes/commentRoutes'); 
-const analyticsRoute = require('./routes/analyticsRoutes');
+const commentsRoute = require('./routes/commentRoutes');
+const userRoutes = require('./routes/userRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
+const activityRoutes = require('./routes/activityRoutes');
 
 require('dotenv').config();
 
@@ -39,27 +41,42 @@ app.use(
   })
 );
 app.use((req, res, next) => {
-    res.locals.userName = req.session.userName || 'User';
-    next();
+  res.locals.userName = req.session.userName || 'User';
+  next();
+});
+
+// Root Route: Landing Page or Redirect
+app.get('/', (req, res) => {
+  if (req.session.user_id) {
+    return res.redirect('/dashboard');
+  }
+  res.render('landing', {
+    layout: 'layout-landing',
+    title: 'Task Manager - Organize Your Work'
   });
-  
+});
+
 // Routes
 app.use('/auth', authRoutes);
+app.use(commentsRoute);
 app.use(taskRoutes);
 app.use(subtaskRoutes);
-app.use(commentsRoute);
-app.use('/', analyticsRoute);
+// app.use(commentsRoute); -- Moved up
+app.use(userRoutes);
+app.use('/analytics', analyticsRoutes);
+app.use('/activity', activityRoutes);
 
 
-// Redirect root to login page
 
-
-app.get('/', async (req, res) => {
+// Dashboard Route (Protected)
+app.get('/dashboard', async (req, res) => {
   if (!req.session.user_id) return res.redirect('/auth/login');
 
   const userId = req.session.user_id;
+  const filter = req.query.filter || 'all';
 
   try {
+    // 1. Fetch Counts
     const [countResults] = await pool.query(`
       SELECT
         SUM(status='pending' AND DATE(due_date) = CURDATE()) AS todayCount,
@@ -70,11 +87,24 @@ app.get('/', async (req, res) => {
     `, [userId]);
 
     const counts = countResults[0];
-    
-    const [tasks] = await pool.query(
-      'SELECT * FROM tasks WHERE user_id = ? ORDER BY due_date ASC',
-      [userId]
-    );
+
+    // 2. Fetch Tasks with Filter
+    let query = 'SELECT * FROM tasks WHERE user_id = ?';
+    let params = [userId];
+
+    if (filter === 'today') {
+      query += ' AND DATE(due_date) = CURDATE()';
+    } else if (filter === 'upcoming') {
+      query += ' AND DATE(due_date) > CURDATE()';
+    } else if (filter === 'pending') {
+      query += " AND status = 'pending'";
+    } else if (filter === 'completed') {
+      query += " AND status = 'completed'";
+    }
+
+    query += ' ORDER BY due_date ASC';
+
+    const [tasks] = await pool.query(query, params);
 
     res.render('dashboard', {
       userName: req.session.userName || 'User',
@@ -83,8 +113,9 @@ app.get('/', async (req, res) => {
       pendingCount: counts.pendingCount,
       completedCount: counts.completedCount,
       tasks,
-      activeFilter: 'all',
+      activeFilter: filter,
       title: 'Dashboard',
+      path: '/dashboard'
     });
   } catch (err) {
     console.error('DB error:', err);

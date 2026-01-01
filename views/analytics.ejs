@@ -1,200 +1,278 @@
-<%- include('partials/header') %>
-<div class="container-fluid py-4" style="background:#f6f8fa;">
-  <h2 class="fw-bold mb-1 ps-1" style="font-size: 2rem;">Task Analytics</h2>
-  <div class="text-muted px-1 mb-4" style="font-size: 1rem;">Last updated: <span id="last-updated">just now</span></div>
-
-  <!-- Filters Row -->
-  <div class="card mb-4 p-3 shadow-sm rounded-4 border-0 d-flex flex-wrap align-items-center gap-3">
+<div class="container-fluid">
+  <!-- Header -->
+  <div class="page-header">
     <div>
-      <label class="fw-semibold mb-0 me-2">Date Range:</label>
-      <select id="date-filter" class="form-select d-inline-block w-auto">
-        <option value="week">Last 7 Days</option>
-        <option value="month">Last 30 Days</option>
+      <h2 class="page-title">Task Analytics</h2>
+      <div class="page-subtitle">Track your productivity and task progress</div>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <span class="text-muted small">Updated <span id="last-updated">just now</span></span>
+      <select id="date-filter" class="form-select-glass">
         <option value="all" selected>All Time</option>
+        <option value="week">Past Week</option>
+        <option value="month">Past Month</option>
       </select>
     </div>
   </div>
 
-  <!-- Stats Row -->
-  <div class="row g-3 mb-4">
-    <div class="col-6 col-md-4 col-lg-2">
-      <div class="card p-3 rounded-4 shadow-sm border-0 text-center stat-card">
-        <div class="text-muted small">Total Tasks</div>
-        <div class="fw-bold fs-4 mb-1" id="stat-total">—</div>
+  <!-- Key Stats Cards -->
+  <div class="row g-4 mb-5">
+    <!-- Total -->
+    <div class="col-6 col-lg-3">
+      <div class="glass-card stat-card primary h-100">
+        <div class="icon-box">
+          <i class="bi bi-layers-fill"></i>
+        </div>
+        <div class="stat-value" id="stat-total">—</div>
+        <div class="stat-label">Total Tasks</div>
       </div>
     </div>
-    <div class="col-6 col-md-4 col-lg-2">
-      <div class="card p-3 rounded-4 shadow-sm border-0 text-center stat-card">
-        <div class="text-muted small">Completed</div>
-        <div class="fw-bold fs-4 mb-1" id="stat-completed">—</div>
+    <!-- Completed -->
+    <div class="col-6 col-lg-3">
+      <div class="glass-card stat-card success h-100">
+        <div class="icon-box">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <div class="stat-value" id="stat-completed">—</div>
+        <div class="stat-label">Completed</div>
       </div>
     </div>
-    <div class="col-6 col-md-4 col-lg-2">
-      <div class="card p-3 rounded-4 shadow-sm border-0 text-center stat-card">
-        <div class="text-muted small">Pending</div>
-        <div class="fw-bold fs-4 mb-1" id="stat-pending">—</div>
+    <!-- Pending -->
+    <div class="col-6 col-lg-3">
+      <div class="glass-card stat-card warning h-100">
+        <div class="icon-box">
+          <i class="bi bi-clock-fill"></i>
+        </div>
+        <div class="stat-value" id="stat-pending">—</div>
+        <div class="stat-label">Pending</div>
       </div>
     </div>
-    <div class="col-6 col-md-4 col-lg-2">
-      <div class="card p-3 rounded-4 shadow-sm border-0 text-center stat-card">
-        <div class="text-muted small">Upcoming</div>
-        <div class="fw-bold fs-4 mb-1" id="stat-upcoming">—</div>
-      </div>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2">
-      <div class="card p-3 rounded-4 shadow-sm border-0 text-center stat-card">
-        <div class="text-muted small">Completion Rate</div>
-        <div class="fw-bold fs-4 mb-1" id="stat-completion-rate">—</div>
-      </div>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2">
-      <div class="card p-3 rounded-4 shadow-sm border-0 text-center stat-card">
-        <div class="text-muted small">Avg. Task Duration</div>
-        <div class="fw-bold fs-4 mb-1" id="stat-avg-duration">—</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Charts Row -->
-  <div class="row g-4 mb-4">
-    <div class="col-lg-4">
-      <div class="card rounded-4 shadow-sm p-3 mb-3 text-center">
-        <h5>Task Status Distribution</h5>
-        <canvas id="statusChart" height="160"></canvas>
-      </div>
-    </div>
-    <div class="col-lg-4">
-      <div class="card rounded-4 shadow-sm p-3 mb-3 text-center">
-        <h5>Priority Breakdown</h5>
-        <canvas id="priorityChart" height="160"></canvas>
-      </div>
-    </div>
-    <div class="col-lg-4">
-      <div class="card rounded-4 shadow-sm p-3 mb-3 text-center">
-        <h5>Tasks Over Time (Weekly)</h5>
-        <canvas id="trendChart" height="160"></canvas>
+    <!-- Upcoming -->
+    <div class="col-6 col-lg-3">
+      <div class="glass-card stat-card h-100" style="background: rgba(99, 102, 241, 0.05);">
+        <div class="icon-box" style="background: rgba(99, 102, 241, 0.1); color: var(--primary);">
+          <i class="bi bi-calendar-event-fill"></i>
+        </div>
+        <div class="stat-value" id="stat-upcoming">—</div>
+        <div class="stat-label">Upcoming</div>
       </div>
     </div>
   </div>
 
-  <!-- Top Priority Tasks -->
-  <div class="card rounded-4 shadow border-0 p-3 mb-4 bg-light">
-    <h5 class="mb-3 text-danger d-flex align-items-center">
-      <span class="material-icons me-2" style="font-size: 1.3em;">priority_high</span>
-      Top Priority Tasks
-    </h5>
-    <ul id="top-tasks-list" class="list-group list-group-flush"></ul>
+  <!-- Charts & Top Tasks -->
+  <div class="row g-4">
+    <!-- Status Distribution -->
+    <div class="col-lg-4">
+      <div class="glass-panel chart-container h-100">
+        <div class="chart-title">
+          Task Status
+          <i class="bi bi-pie-chart-fill text-muted"></i>
+        </div>
+        <div style="height: 250px; position: relative;">
+          <canvas id="statusChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Priority Breakdown -->
+    <div class="col-lg-4">
+      <div class="glass-panel chart-container h-100">
+        <div class="chart-title">
+          Priority Breakdown
+          <i class="bi bi-bar-chart-fill text-muted"></i>
+        </div>
+        <div style="height: 250px; position: relative;">
+          <canvas id="priorityChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly Trend -->
+    <div class="col-lg-4">
+      <div class="glass-panel chart-container h-100">
+        <div class="chart-title">
+          Completion Trend
+          <i class="bi bi-graph-up text-muted"></i>
+        </div>
+        <div style="height: 250px; position: relative;">
+          <canvas id="trendChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Priority List -->
+  <div class="mt-4 mb-4">
+    <div class="glass-panel p-4">
+      <div class="chart-title mb-4">
+        <span class="text-danger d-flex align-items-center gap-2">
+          <i class="bi bi-exclamation-circle-fill"></i> Top Priority Pending
+        </span>
+      </div>
+      <div id="top-tasks-list" class="d-flex flex-column gap-3">
+        <!-- Tasks inserted via JS -->
+      </div>
+    </div>
   </div>
 </div>
 
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-function capitalize(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
+  // -- Chart Globals --
+  Chart.defaults.font.family = "'Outfit', sans-serif";
+  Chart.defaults.color = '#64748b';
+  Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
 
-let statusChart, priorityChart, trendChart;
+  let statusChart, priorityChart, trendChart;
 
-function formatDueDate(dateStr) {
-  if (!dateStr) return "No due date";
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('en-US', {
-    year: "numeric", month: "short", day: "numeric", weekday: "short"
-  });
-}
+  async function fetchAndRenderData() {
+    const filter = document.getElementById('date-filter').value;
+    document.getElementById('last-updated').innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-async function fetchAndRenderData() {
-  const filter = document.getElementById('date-filter').value;
-  document.getElementById('last-updated').innerText = new Date().toLocaleString();
+    try {
+      const res = await fetch(`/analytics/data?filter=${filter}`);
+      if (!res.ok) throw new Error('API Error');
+      const data = await res.json();
 
-  const res = await fetch(`/analytics/data?filter=${filter}`);
-  if (!res.ok) { alert('Failed to load analytics data'); return; }
-  const data = await res.json();
+      // 1. Update Stats Cards (using new 'stats' object)
+      const { total, completed, pending, upcoming } = data.stats;
 
-  // Stats counts
-  let total = 0, completed = 0, pending = 0, upcoming = 0;
-  data.statusData.forEach(s => {
-    total += s.count;
-    if (s.status === 'completed') completed = s.count;
-    if (s.status === 'pending') pending = s.count;
-    if (s.status === 'upcoming') upcoming = s.count;
-  });
-  document.getElementById('stat-total').innerText = total;
-  document.getElementById('stat-completed').innerText = completed;
-  document.getElementById('stat-pending').innerText = pending;
-  document.getElementById('stat-upcoming').innerText = upcoming;
-  document.getElementById('stat-completion-rate').innerText = total ? Math.round(completed / total * 100) + '%' : '-';
-  document.getElementById('stat-avg-duration').innerText = data.avgTaskDuration || '—';
+      animateValue("stat-total", total);
+      animateValue("stat-completed", completed);
+      animateValue("stat-pending", pending);
+      animateValue("stat-upcoming", upcoming);
 
-  // Charts
-  const statusLabels = data.statusData.map(i => capitalize(i.status || 'Unknown'));
-  const statusCounts = data.statusData.map(i => i.count);
-  const statusColors = ['#198754', '#ffc107', '#0d6efd', '#dc3545'];
+      // 2. Charts
+      const statusLabels = data.statusData.map(d => capitalize(d.status));
+      const statusCounts = data.statusData.map(d => d.count);
 
-  const priorityLabels = data.priorityData.map(i => capitalize(i.priority || 'Unknown'));
-  const priorityCounts = data.priorityData.map(i => i.count);
-  const priorityColors = ['#dc3545', '#0dcaf0', '#6f42c1', '#198754'];
+      const priorityLabels = data.priorityData.map(d => capitalize(d.priority));
+      const priorityCounts = data.priorityData.map(d => d.count);
 
-  const trendLabels = data.trendData.labels;
-  const trendCounts = data.trendData.data;
+      updateCharts(
+        { labels: statusLabels, data: statusCounts },
+        { labels: priorityLabels, data: priorityCounts },
+        data.trendData
+      );
 
-  if(statusChart) statusChart.destroy();
-  if(priorityChart) priorityChart.destroy();
-  if(trendChart) trendChart.destroy();
+      // 3. Top Tasks
+      renderTopTasks(data.topPriorityTasks);
 
-  statusChart = new Chart(document.getElementById('statusChart'), {
-    type: 'doughnut',
-    data: { labels: statusLabels, datasets: [{ data: statusCounts, backgroundColor: statusColors }] },
-    options: { responsive: true, cutout: '65%' }
-  });
-
-  priorityChart = new Chart(document.getElementById('priorityChart'), {
-    type: 'doughnut',
-    data: { labels: priorityLabels, datasets: [{ data: priorityCounts, backgroundColor: priorityColors }] },
-    options: { responsive: true, cutout: '65%' }
-  });
-
-  trendChart = new Chart(document.getElementById('trendChart'), {
-    type: 'bar',
-    data: { 
-      labels: trendLabels, 
-      datasets: [{ label: 'Tasks', data: trendCounts, backgroundColor: '#0d6efd', borderRadius: 8 }] 
-    },
-    options: {
-      responsive: true,
-      scales: {
-        x: { title: { display: true, text: 'Week' } },
-        y: { beginAtZero: true, title: { display: true, text: 'Number of Tasks' } }
-      }
+    } catch (e) {
+      console.error(e);
+      // alert('Could not load analytics data');
     }
-  });
+  }
 
-  // Top Priority Tasks UI logic
-  const topTasksList = document.getElementById('top-tasks-list');
-  topTasksList.innerHTML = '';
-  if (data.topPriorityTasks && data.topPriorityTasks.length) {
-    data.topPriorityTasks.forEach(task => {
-      const dueLabel = task.due_date_formatted || formatDueDate(task.due_date);
-      const now = new Date();
-      const isOverdue = task.due_date && (new Date(task.due_date) < now);
-      const overdueBadge = isOverdue
-        ? '<span class="badge bg-warning text-dark ms-2">Overdue</span>'
-        : '';
-      topTasksList.innerHTML += `
-        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-0 px-0 py-2 shadow-sm rounded-2 my-1">
-          <div>
-            <span class="fw-semibold">${task.title}</span>
-            ${overdueBadge}
+  function updateCharts(statusData, priorityData, trendData) {
+    // Status Chart (Doughnut)
+    if (statusChart) statusChart.destroy();
+    statusChart = new Chart(document.getElementById('statusChart'), {
+      type: 'doughnut',
+      data: {
+        labels: statusData.labels,
+        datasets: [{
+          data: statusData.data,
+          backgroundColor: ['#10b981', '#f59e0b', '#3b82f6', '#ef4444'],
+          borderWidth: 0,
+          hoverOffset: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } },
+        layout: { padding: 10 }
+      }
+    });
+
+    // Priority Chart (Doughnut)
+    if (priorityChart) priorityChart.destroy();
+    priorityChart = new Chart(document.getElementById('priorityChart'), {
+      type: 'doughnut',
+      data: {
+        labels: priorityData.labels,
+        datasets: [{
+          data: priorityData.data,
+          backgroundColor: ['#ef4444', '#3b82f6', '#a855f7', '#10b981'], // High, Med, Low...
+          borderWidth: 0,
+          hoverOffset: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '70%',
+        plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } }
+      }
+    });
+
+    // Trend Chart (Bar)
+    if (trendChart) trendChart.destroy();
+    trendChart = new Chart(document.getElementById('trendChart'), {
+      type: 'bar',
+      data: {
+        labels: trendData.labels,
+        datasets: [{
+          label: 'Tasks',
+          data: trendData.data,
+          backgroundColor: '#6366f1',
+          borderRadius: 6,
+          barThickness: 20
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, grid: { borderDash: [2, 4], color: 'rgba(0,0,0,0.05)' } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  function renderTopTasks(tasks) {
+    const list = document.getElementById('top-tasks-list');
+    list.innerHTML = '';
+
+    if (!tasks || tasks.length === 0) {
+      list.innerHTML = '<div class="text-center text-muted py-3">No urgent tasks found! 🎉</div>';
+      return;
+    }
+
+    tasks.forEach(task => {
+      list.innerHTML += `
+        <div class="list-item-glass d-flex justify-content-between align-items-center p-3">
+          <div class="d-flex align-items-center gap-3">
+             <div class="icon-box-sm bg-danger text-white rounded-circle d-flex align-items-center justify-content-center" style="width:32px;height:32px;">
+                <i class="bi bi-exclamation"></i>
+             </div>
+             <div>
+               <div class="fw-semibold">${task.title}</div>
+               <div class="small text-muted"><i class="bi bi-calendar"></i> Due: ${task.due_date_formatted}</div>
+             </div>
           </div>
-          <span class="text-muted small">${dueLabel}</span>
-          <span class="badge bg-danger ms-2">High</span>
-        </li>
+          <span class="badge-glass bg-high">High Priority</span>
+        </div>
       `;
     });
-  } else {
-    topTasksList.innerHTML = '<li class="list-group-item text-muted bg-transparent border-0">No urgent high priority tasks 🎉</li>';
   }
-}
 
-document.getElementById('date-filter').addEventListener('change', fetchAndRenderData);
-fetchAndRenderData();
+  function capitalize(str) {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  function animateValue(id, value) {
+    const obj = document.getElementById(id);
+    if (!obj) return;
+    // Simple update for now, can add counter animation later
+    obj.innerText = value;
+  }
+
+  // Init
+  document.getElementById('date-filter').addEventListener('change', fetchAndRenderData);
+  fetchAndRenderData();
 </script>

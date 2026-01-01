@@ -1,76 +1,72 @@
-<% if(tasks.length > 0) { %>
-  <div class="tasks-list-cards d-flex flex-column gap-4 mt-3 mb-3">
-    <% tasks.forEach(task => { %>
-      <div class="card task-card rounded-4 border-0 px-4 py-3 custom-task-card" style="background-color: #e9ecef; margin-left: 6px; margin-right:6px;">
-        <div class="mb-2">
-          <h3 class="fw-bold mb-1 task-title">
-            <%= task.title || 'Untitled Task' %>
-          </h3>
-          <hr class="border-light my-2" style="opacity: .45;">
-        </div>
-        <div class="text-secondary mb-2 task-desc fs-6">
-          <%= task.description || '' %>
-        </div>
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
-          <span class="text-nowrap text-muted task-date fs-6">
-            <i class="bi bi-calendar2-event me-1"></i>
-            Due: <%= task.due_date ? task.due_date.toISOString().slice(0, 10) : "—" %>
-          </span>
-          <% if(task.completed_date) { %>
-            <span class="text-nowrap text-success ms-3 fs-6">
-              <i class="bi bi-check-circle me-1"></i>
-              Completed: <%= task.completed_date.toISOString().slice(0, 10) %>
-            </span>
-          <% } %>
-        </div>
-        <div class="d-flex gap-2 mb-2 flex-wrap">
-          <% if(task.status) { %>
-            <span class="badge status-pill rounded-pill px-3 py-2 <%= task.status === 'completed' ? 'bg-success' : (task.status === 'pending' ? 'bg-warning text-dark' : 'bg-primary') %>">
-              <%= task.status ? (task.status.charAt(0).toUpperCase() + task.status.slice(1)) : 'Unknown' %>
-            </span>
-          <% } %>
-          <% if(task.priority) { %>
-            <span class="badge priority-pill rounded-pill px-3 py-2 <%= task.priority === 'high' ? 'bg-danger' : 'bg-info text-dark' %>">
-              <i class="bi bi-flag-fill me-1"></i>
-              <%= task.priority.charAt(0).toUpperCase() + task.priority.slice(1) %> Priority
-            </span>
-          <% } %>
-        </div>
-        <div class="d-flex flex-wrap gap-4 align-items-center mb-2">
-          <% if(task.completed_sections !== undefined && task.total_sections !== undefined) { %>
-            <span class="text-secondary fs-6">
-              <i class="bi bi-list-check me-1"></i>
-              <%= task.completed_sections %>/<%= task.total_sections %> sections done
-            </span>
-          <% } %>
-          <% if(task.comments_count !== undefined) { %>
-            <span class="fs-6 text-secondary">
-              <i class="bi bi-chat-left-text me-1"></i>
-              <%= task.comments_count %> Comments
-            </span>
-          <% } %>
-        </div>
-        <div class="d-flex gap-2 mt-2 flex-wrap">
-          <!-- View task details -->
-          <a href="/tasks/<%= task.id %>" class="btn btn-outline-primary btn-sm px-3 task-btn"><i class="bi bi-eye me-1"></i>View</a>
-          <!-- Edit task page -->
-          <a href="/tasks/<%= task.task_id %>/edit" class="btn btn-outline-secondary btn-sm px-3 task-btn"><i class="bi bi-pencil me-1"></i>Edit</a>
-          <!-- Mark as done only if not yet completed -->
-          <% if(task.status !== 'completed') { %>
-            <form action="/tasks/<%= task.id %>/toggle-ajax" method="post" style="display:inline;">
-              <button type="submit" class="btn btn-primary btn-sm px-3 text-white task-btn"><i class="bi bi-check2-circle me-1"></i>Mark as Done</button>
-            </form>
-          <% } %>
-          <!-- Delete task -->
-          <form action="/tasks/<%= task.task_id %>/delete" method="POST" style="display:inline;">
-            <button type="submit" class="btn btn-danger btn-sm px-3 task-btn"><i class="bi bi-trash me-1"></i>Delete</button>
-          </form>
-        </div>
-      </div>
-    <% }); %>
+<% if (tasks.length===0) { %>
+  <div class="text-center py-5 text-muted">
+    <div class="mb-3" style="font-size: 3rem; opacity: 0.3;"><i class="bi bi-inbox"></i></div>
+    <h5 class="fw-bold">No tasks found</h5>
+    <p>You're all caught up! or try a different filter.</p>
   </div>
-<% } else { %>
-  <div class="alert alert-light border text-center rounded-4 mt-3">
-    <i class="bi bi-info-circle me-2"></i>No tasks found.
-  </div>
-<% } %>
+  <% } else { %>
+    <div class="d-flex flex-column gap-3">
+      <% tasks.forEach(task=> {
+        let dueClass = '';
+        if (task.due_date && task.status !== 'completed') {
+        const today = new Date();
+        const due = new Date(task.due_date);
+        const isToday = due.toDateString() === today.toDateString();
+        const isOverdue = due < today.setHours(0,0,0,0); if (isOverdue) dueClass='task-overdue' ; else if (isToday)
+          dueClass='task-today' ; } %>
+          <div class="task-row d-flex align-items-center justify-content-between <%= dueClass %>">
+            <div class="d-flex align-items-center gap-3">
+              <!-- Status Toggle -->
+              <form action="/tasks/<%= task.task_id %>/toggle" method="POST" style="margin:0;">
+                <input type="hidden" name="status" value="<%= task.status === 'completed' ? 'pending' : 'completed' %>">
+                <button type="submit" class="btn p-0 border-0 bg-transparent status-toggle-btn" title="Toggle Status">
+                  <% if (task.status==='completed' ) { %>
+                    <i class="bi bi-check-circle-fill text-success fs-4"></i>
+                    <% } else { %>
+                      <i class="bi bi-circle text-muted fs-4"></i>
+                      <% } %>
+                </button>
+              </form>
+
+              <!-- Task Details -->
+              <div>
+                <a href="/tasks/<%= task.task_id %>"
+                  class="text-decoration-none task-title-link <%= task.status === 'completed' ? 'text-decoration-line-through text-muted' : '' %>">
+                  <%= task.title %>
+                </a>
+                <div class="small text-muted d-flex align-items-center gap-2 mt-1">
+                  <% if (task.due_date) { %>
+                    <span class="task-date">
+                      <i class="bi bi-calendar-event me-1"></i>
+                      <%= new Date(task.due_date).toLocaleDateString(undefined, { month: 'short' , day: 'numeric' }) %>
+                    </span>
+                    <% } %>
+
+                      <!-- Priority Badge -->
+                      <% let priorityClass='bg-secondary' ; if (task.priority==='High' ) priorityClass='bg-danger' ;
+                        else if (task.priority==='Medium' ) priorityClass='bg-primary' ; %>
+                        <span
+                          class="badge rounded-pill <%= priorityClass %> bg-opacity-10 text-<%= priorityClass.replace('bg-', '') %>"
+                          style="font-size: 0.7rem; border: 1px solid currentColor;">
+                          <%= task.priority %>
+                        </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex gap-2 task-actions">
+              <a href="/tasks/<%= task.task_id %>/edit" class="btn btn-sm btn-light text-primary border-0">
+                <i class="bi bi-pencil-fill"></i>
+              </a>
+              <form action="/tasks/<%= task.task_id %>/delete" method="POST" onsubmit="return confirm('Are you sure?');"
+                style="margin:0;">
+                <button type="submit" class="btn btn-sm btn-light text-danger border-0">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+          <% }) %>
+    </div>
+    <% } %>

@@ -44,10 +44,10 @@ exports.postLogin = async (req, res) => {
     }
 
     req.session.user_id = user.user_id;
-req.session.userName = user.name;
-console.log(req.session.user_id = user.user_id);
+    req.session.userName = user.name;
+    console.log(req.session.user_id = user.user_id);
 
-    res.redirect('/');
+    res.redirect('/dashboard');
   } catch (err) {
     console.error(err);
     res.render('auth/login', {

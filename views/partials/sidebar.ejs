@@ -1,54 +1,49 @@
-<aside class="dashboard-sidebar col-md-3 col-lg-2 d-none d-md-flex flex-column bg-white border-end p-0 shadow-sm vh-100 position-fixed"
-       id="sidebarMenu">
-  <div class="dashboard-sidebar-profile py-4 px-3 border-bottom">
-    <img src="/public/images/avatar.svg" alt="Avatar" class="dashboard-sidebar-avatar mb-2">
-    <div class="fw-bold" style="color:#4839eb;"><%= userName || 'User' %></div>
-    <div class="small text-muted">View Profile</div>
-  </div>
-  <nav class="dashboard-nav flex-grow-1 px-3 pt-3">
-    <ul class="nav flex-column">
-      <li class="nav-item mb-2">
-        <a class="nav-link active" href="/"><i class="bi bi-house-door"></i> Dashboard</a>
-      </li>
-      <li class="nav-item mb-2">
-        <a class="nav-link" href="/tasks"><i class="bi bi-list-task"></i> Tasks</a>
-      </li>
-      <li class="nav-item mb-2">
-        <a class="nav-link" href="/analytics"><i class="bi bi-bar-chart"></i> Analytics</a>
-      </li>
-      <li class="nav-item mb-2">
-        <a class="nav-link text-danger" href="/auth/logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
-      </li>
-    </ul>
-  </nav>
-  <div class="dashboard-sidebar-settings px-3 pb-4">
-    <a href="#" class="small text-muted">Settings</a>
+<aside class="sidebar-wrapper">
+  <div class="sidebar-content">
+    <div class="brand-section">
+      <div class="brand-logo">TM</div>
+      <div class="brand-text">TaskManager</div>
+    </div>
+
+    <nav class="nav flex-column flex-grow-1">
+      <a class="nav-link <%= (typeof path !== 'undefined' && path === '/dashboard') ? 'active' : '' %>"
+        href="/dashboard">
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-link <%= (typeof path !== 'undefined' && path === '/tasks') ? 'active' : '' %>" href="/tasks">
+        <i class="bi bi-check-square-fill"></i>
+        <span>Tasks</span>
+      </a>
+      <a class="nav-link <%= (typeof path !== 'undefined' && path === '/search') ? 'active' : '' %>" href="/search">
+        <i class="bi bi-search"></i>
+        <span>Search</span>
+      </a>
+      <a class="nav-link <%= (typeof path !== 'undefined' && path === '/activity') ? 'active' : '' %>" href="/activity">
+        <i class="bi bi-clock-history"></i>
+        <span>Activity Log</span>
+      </a>
+    </nav>
+
+    <div class="mt-auto mb-3 px-3">
+      <button id="themeToggle" class="btn btn-light w-100 d-flex align-items-center justify-content-center gap-2"
+        style="background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-main);">
+        <i class="bi bi-moon-fill"></i>
+        <span>Toggle Theme</span>
+      </button>
+    </div>
+
+    <div class="user-profile-section">
+      <img src="https://ui-avatars.com/api/?name=<%= userName %>&background=4f46e5&color=fff&rounded=true" alt="User"
+        class="user-avatar">
+      <div class="d-flex flex-column ms-2 overflow-hidden">
+        <a href="/profile" class="fw-bold text-truncate text-decoration-none"
+          style="font-size: 0.9rem; color: var(--text-main);">
+          <%= userName || 'User' %>
+        </a>
+        <a href="/auth/logout" class="text-danger small text-decoration-none fw-bold"
+          style="font-size: 0.75rem;">LOGOUT</a>
+      </div>
+    </div>
   </div>
 </aside>
-<!-- Mobile sidebar toggle -->
-<nav class="navbar bg-white border-bottom d-md-none p-2">
-  <button class="btn btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <span class="fs-5 fw-bold ms-3" style="color:#4839eb;">TaskManagementSystem</span>
-</nav>
-<!-- Sidebar offcanvas for mobile -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title">Menu</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-  </div>
-  <div class="offcanvas-body">
-    <!-- Repeat profile and nav items for mobile -->
-    <div class="text-center mb-3">
-      <img src="/public/images/avatar.svg" alt="Avatar" class="dashboard-sidebar-avatar mb-2">
-      <div class="fw-bold" style="color:#4839eb;"><%= userName || 'User' %></div>
-    </div>
-    <ul class="nav flex-column">
-      <li class="nav-item mb-2"><a class="nav-link active" href="/">Dashboard</a></li>
-      <li class="nav-item mb-2"><a class="nav-link" href="/tasks">Tasks</a></li>
-      <li class="nav-item mb-2"><a class="nav-link" href="/analytics">Analytics</a></li>
-      <li class="nav-item mb-2"><a class="nav-link text-danger" href="/auth/logout">Logout</a></li>
-    </ul>
-  </div>
-</div>

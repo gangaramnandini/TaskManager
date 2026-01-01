@@ -1,37 +1,53 @@
-const pool = require('../config/db');
+const Subtask = require('../models/subtaskModel');
+const History = require('../models/historyModel');
+const pool = require('../config/db'); // Needed for manual lookup
 
 exports.addSubtask = async (req, res) => {
   const { task_id } = req.params;
   const { title } = req.body;
   try {
-    await pool.query('INSERT INTO subtasks (task_id, title) VALUES (?, ?)', [task_id, title]);
-    const [subtasks] = await pool.query('SELECT * FROM subtasks WHERE task_id = ?', [task_id]);
-    res.json(subtasks);
+    await Subtask.create(task_id, title);
+    await History.create(task_id, req.session.user_id, 'subtask_added', `Subtask added: ${title}`);
+    res.redirect(req.get('Referer') || `/tasks/${task_id}`);
   } catch (err) {
-    res.status(500).json({ error: 'Error adding subtask' });
+    console.error(err);
+    res.status(500).send('Error adding subtask');
   }
 };
 
 exports.deleteSubtask = async (req, res) => {
   const { subtask_id } = req.params;
   try {
-    await pool.query('DELETE FROM subtasks WHERE subtask_id = ?', [subtask_id]);
-    res.json({ success: true });
+    // manually fetch to get task_id and title for logging
+    const [[subtask]] = await pool.query('SELECT * FROM subtasks WHERE subtask_id = ?', [subtask_id]);
+
+    await Subtask.delete(subtask_id);
+
+    if (subtask) {
+      await History.create(subtask.task_id, req.session.user_id, 'subtask_deleted', `Subtask deleted: ${subtask.title}`);
+    }
+
+    res.redirect(req.get('Referer') || '/tasks');
   } catch (err) {
-    res.status(500).json({ error: 'Error deleting subtask' });
+    console.error(err);
+    res.status(500).send('Error deleting subtask');
   }
 };
 
 exports.toggleSubtaskStatus = async (req, res) => {
   const { subtask_id } = req.params;
   try {
-    const [[subtask]] = await pool.query('SELECT status FROM subtasks WHERE subtask_id = ?', [subtask_id]);
-    if (!subtask) return res.status(404).json({ error: 'Not found' });
-    const newStatus = subtask.status === 'pending' ? 'completed' : 'pending';
-    await pool.query('UPDATE subtasks SET status = ? WHERE subtask_id = ?', [newStatus, subtask_id]);
-    res.json({ success: true, status: newStatus });
+    const [[subtask]] = await pool.query('SELECT * FROM subtasks WHERE subtask_id = ?', [subtask_id]);
+    const newStatus = await Subtask.toggleStatus(subtask_id);
+
+    if (subtask && newStatus) {
+      await History.create(subtask.task_id, req.session.user_id, 'subtask_updated', `Subtask '${subtask.title}' marked as ${newStatus}`);
+    }
+
+    res.redirect(req.get('Referer') || '/tasks');
   } catch (err) {
-    res.status(500).json({ error: 'Error toggling subtask' });
+    console.error(err);
+    res.status(500).send('Error toggling subtask');
   }
 };
 
@@ -39,18 +55,19 @@ exports.editSubtask = async (req, res) => {
   const { subtask_id } = req.params;
   const { title } = req.body;
   try {
-    await pool.query('UPDATE subtasks SET title = ? WHERE subtask_id = ?', [title, subtask_id]);
-    res.json({ success: true });
+    await Subtask.updateTitle(subtask_id, title);
+    res.redirect(req.get('Referer') || '/tasks');
   } catch (err) {
-    res.status(500).json({ error: 'Error editing subtask' });
+    console.error(err);
+    res.status(500).send('Error editing subtask');
   }
 };
 
-// API to get all subtasks for a task (AJAX refresh)
 exports.listSubtasksForTask = async (req, res) => {
+  // Kept for API compatibility if needed, but UI uses SSR
   const { task_id } = req.params;
   try {
-    const [subtasks] = await pool.query('SELECT * FROM subtasks WHERE task_id = ?', [task_id]);
+    const subtasks = await Subtask.getAllByTaskId(task_id);
     res.json(subtasks);
   } catch (err) {
     res.status(500).json({ error: 'Error loading subtasks' });
