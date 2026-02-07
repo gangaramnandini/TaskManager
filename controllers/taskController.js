@@ -50,7 +50,7 @@ exports.editTask = async (req, res) => {
     const success = await Task.update(req.params.id, req.session.user_id, req.body);
     if (!success) return res.status(404).send('Task not found or unauthorized');
 
-    // Fetch previous state to compare? Or just log general update for now
+    // Log general update for now
     await History.create(req.params.id, req.session.user_id, 'updated', 'Task details updated');
 
     res.redirect('/tasks');
@@ -61,7 +61,7 @@ exports.editTask = async (req, res) => {
 };
 
 // Delete task
-// Delete task
+
 exports.deleteTask = async (req, res) => {
   try {
     // Fetch task first to get the title for logging
@@ -165,7 +165,7 @@ exports.searchTasks = async (req, res) => {
 
   try {
     const tasks = await Task.search(userId, query);
-    console.log(`Search for "${query}": found ${tasks.length} tasks`);
+
 
     // Render just the partial
     res.render('partials/tasksList', { tasks, layout: false });

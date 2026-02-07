@@ -11,7 +11,6 @@ Designed to help individuals and teams organize work, track progress, and amplif
 - **Landing Page**: A dedicated, high-conversion landing page for unauthenticated users.
 - **Smart Dashboard**: Real-time overview of tasks with **Total**, **Pending**, **Upcoming**, and **Completed** statistics.
 - **Glassmorphism UI**: A consistent, modern design language featuring semi-transparent panels, blur effects, and smooth gradients.
-- **Dark Mode Support**: Fully optimized for both light and dark themes.
 
 ### ✅ Task Management
 - **CRUD Operations**: Create, Read, Update, and Delete tasks effortlessly.
@@ -45,8 +44,8 @@ Designed to help individuals and teams organize work, track progress, and amplif
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/gangaramnandini/TaskManager.git
-cd Task_manager
+git clone https://github.com/gangaramnandini/task_management_system.git
+cd task_management_system
 ```
 
 ### 2. Install Dependencies
@@ -56,7 +55,7 @@ npm install
 
 ### 3. Configure Database
 1.  Create a MySQL database named `task_management_system`.
-2.  Import the schema (if you have a `db.sql` file) or manually create the tables (`users`, `tasks`, `subtasks`, `comments`, `task_history`).
+2.  Import the schema from the `database.sql` file located in the root directory.
     *   *Note: Ensure your database schema matches the models in the code.*
 
 ### 4. Environment Variables

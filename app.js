@@ -61,7 +61,7 @@ app.use('/auth', authRoutes);
 app.use(commentsRoute);
 app.use(taskRoutes);
 app.use(subtaskRoutes);
-// app.use(commentsRoute); -- Moved up
+
 app.use(userRoutes);
 app.use('/analytics', analyticsRoutes);
 app.use('/activity', activityRoutes);

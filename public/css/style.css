@@ -34,18 +34,8 @@
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
-/* Dark Mode Variables */
-[data-theme="dark"] {
-  --bg-body: #0f172a;
-  --bg-sidebar: #1e293b;
-  --text-main: #f1f5f9;
-  --text-muted: #94a3b8;
-  --card-bg: #1e293b;
-  --border-color: #334155;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-  --primary: #818cf8;
-  /* Lighter indigo for dark mode */
-}
+
+
 
 body {
   font-family: 'Inter', sans-serif;
@@ -372,34 +362,7 @@ h6 {
   background-color: rgba(249, 115, 22, 0.05);
 }
 
-/* Dark Mode Specific Overrides */
-[data-theme="dark"] .form-control,
-[data-theme="dark"] .form-select,
-[data-theme="dark"] .list-item-glass,
-[data-theme="dark"] .btn-light {
-  background-color: #334155;
-  /* Slate 700 */
-  border-color: #475569;
-  color: var(--text-main);
-}
 
-[data-theme="dark"] .form-control::placeholder {
-  color: #94a3b8;
-}
-
-[data-theme="dark"] .bg-white {
-  background-color: var(--card-bg) !important;
-  color: var(--text-main);
-}
-
-[data-theme="dark"] .bg-light {
-  background-color: var(--bg-body) !important;
-  color: var(--text-main);
-}
-
-[data-theme="dark"] .text-dark {
-  color: var(--text-main) !important;
-}
 
 /* Search Hero Component */
 .search-hero-container {
@@ -454,11 +417,7 @@ h6 {
 }
 
 /* Dark mode adjustments for search */
-[data-theme="dark"] .search-hero {
-  background: var(--card-bg);
-  /* Use card background for contrast against body */
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-}
+
 
 
 
@@ -569,21 +528,7 @@ h6 {
   opacity: 1;
 }
 
-/* --- Theme Toggle Button --- */
-#themeToggle {
-  border-radius: 10px !important;
-  padding: 0.65rem !important;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border: 1px solid var(--border-color) !important;
-  transition: all 0.2s;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
 
-#themeToggle:hover {
-  background: var(--sidebar-hover) !important;
-  border-color: #cbd5e1 !important;
-}
 
 /* --- User Profile Section --- */
 .user-profile-section {

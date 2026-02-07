@@ -80,14 +80,16 @@
         <h4 class="mb-0 fw-bold">My Tasks</h4>
         <!-- Modern Filters -->
         <div class="dashboard-filters">
-          <a href="/?filter=all" class="filter-btn-pill <%= activeFilter === 'all' ? 'active' : '' %>">All</a>
-          <a href="/?filter=today" class="filter-btn-pill <%= activeFilter === 'today' ? 'active' : '' %>">Today</a>
-          <a href="/?filter=upcoming"
-            class="filter-btn-pill <%= activeFilter === 'upcoming' ? 'active' : '' %>">Upcoming</a>
-          <a href="/?filter=pending"
-            class="filter-btn-pill <%= activeFilter === 'pending' ? 'active' : '' %>">Pending</a>
-          <a href="/?filter=completed"
-            class="filter-btn-pill <%= activeFilter === 'completed' ? 'active' : '' %>">Done</a>
+          <a href="#" class="filter-btn-pill filter-btn <%= activeFilter === 'all' ? 'active' : '' %>"
+            data-filter="all">All</a>
+          <a href="#" class="filter-btn-pill filter-btn <%= activeFilter === 'today' ? 'active' : '' %>"
+            data-filter="today">Today</a>
+          <a href="#" class="filter-btn-pill filter-btn <%= activeFilter === 'upcoming' ? 'active' : '' %>"
+            data-filter="upcoming">Upcoming</a>
+          <a href="#" class="filter-btn-pill filter-btn <%= activeFilter === 'pending' ? 'active' : '' %>"
+            data-filter="pending">Pending</a>
+          <a href="#" class="filter-btn-pill filter-btn <%= activeFilter === 'completed' ? 'active' : '' %>"
+            data-filter="completed">Done</a>
         </div>
       </div>
 

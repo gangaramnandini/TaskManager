@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const tasksContainer = document.getElementById('tasks-container');
 
   filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
       filterButtons.forEach(b => b.classList.remove('active'));
       button.classList.add('active');
 

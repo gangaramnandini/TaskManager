@@ -39,7 +39,7 @@ router.get('/tasks/:task_id', taskController.getTaskDetails);
 router.get('/search', taskController.getSearchPage);
 
 // Get filtered tasks (AJAX)
-// router.get('/tasks/filter', taskController.getFilteredTasks);
+
 
 
 module.exports = router;
